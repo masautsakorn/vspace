@@ -2,7 +2,7 @@ import $ from "jquery";
 var jPost = function(url, data){
     return new Promise(function(resolve, reject){
         var settings = {
-            "async": true,
+            "async": false,
             "crossDomain": true,
             "url": url,
             "method": "POST",

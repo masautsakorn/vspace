@@ -124,7 +124,7 @@ class FormLogin extends Component{
     if(this.state.page===1){
       var formLogin = <Card style={style}>
         <form onSubmit={this.handleSubmit}>
-          <div style={{'paddingTop':'20px'}}><span style={{color:lightBlack}}>Welcome to vSpace (SOS Demo) </span></div>
+          <div style={{'paddingTop':'20px'}}><span style={{color:lightBlack}}>Welcome to vSpace</span></div>
           <div>
             <TextField hintText="Email..." floatingLabelText="Email"  onChange={this.handleUserChange}  />
           </div>

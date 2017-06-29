@@ -1,6 +1,6 @@
-var END_POINT_2 = 'http://sos.vspace.in.th/apis/';
+var END_POINT_2 = 'http://vspace.in.th/apis/';
 // var END_POINT_2 = './apis/';
-// var END_POINT_2 = 'http://192.168.14.2/Backup/apis/';
+var END_POINT_2 = 'http://192.168.14.2/Backup/apis/';
 export var END_POINT_PDF = './pdf/';
 
 const mode = '';//'dev';

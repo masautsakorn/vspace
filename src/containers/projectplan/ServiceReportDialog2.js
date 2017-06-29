@@ -242,7 +242,7 @@ class ServiceReportDialog extends Component {
     }else{
       if(this.state.editSid==null){
         btnCreateServiceReport =
-        <span className="btn two" key={-1} onTouchTap={this.handleOpenCreatingService}>Create New Service Report</span>;
+        <div><span className="btn two" key={-1} onTouchTap={this.handleOpenCreatingService}>Create New Service Report</span></div>;
         // btnCreateServiceReport = (<Chip key={-1} onTouchTap={this.handleOpenCreatingService} style={styles.chip}>
         //   <Avatar color="#fff" icon={<ContentAdd />} />Create New Service Report</Chip>);
       }
@@ -489,12 +489,12 @@ class ServiceReportDialog extends Component {
       label = serviceReport;
     }
     var viewAppointment =
-      <span style={{color:'#ffffff',marginLeft:10}}>
-        <a className="link" style={{cursor:'pointer',marginLeft:5}} onTouchTap={()=>{this.setState({open:!this.state.open}) }} >
+      <div style={{color:'#ffffff',marginLeft:0, display:'flex', flexDirection:'row'}}>
+        <div><a className="link" style={{cursor:'pointer'}} onTouchTap={()=>{this.setState({open:!this.state.open}) }} >
         ({this.props.serviceReport.length})
-        View Detail</a>
+        View Detail</a></div>
         {btnCreateServiceReport}
-      </span>
+      </div>
 
     var createAppointment;
     if(this.state.creatingService && this.state.editSid===null){

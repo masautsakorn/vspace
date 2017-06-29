@@ -211,7 +211,6 @@ class TicketDetail extends Component {
         // jobData = <PresentData label={"Loading..."} />
       // }else{
         jobData = <ServiceReportDialog
-          // socket={this.props.socket}
           loadNew={this.loadTicket}
           ticket={data}
           onOpenAppointment={this.handleOpenAppointment}
