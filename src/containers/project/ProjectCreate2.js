@@ -28,9 +28,7 @@ import {PresentDataHead,PresentDataBody,PresentDataForm,PresentDataS,PresentData
 // } from 'material-ui/Stepper';
 // import RaisedButton from 'material-ui/RaisedButton';
 // import FlatButton from 'material-ui/FlatButton';
-
 // import {PROJECT_SELECT_TYPE,HAVE_NOT_CONTRACT,HAVE_CONTRACT,SELECT_PROJECT_FOR_COMPANY} from '../actions/project/ProjectAction';
-
 const inputWidth = "100%";
 class ProjectCreate extends Component {
   constructor(props){
