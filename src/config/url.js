@@ -1,6 +1,6 @@
 var END_POINT_2 = 'http://vspace.in.th/apis/';
 // var END_POINT_2 = './apis/';
-var END_POINT_2 = 'http://192.168.14.2/Backup/apis/';
+// var END_POINT_2 = 'http://localhost/Backup/apis/';
 export var END_POINT_PDF = './pdf/';
 
 const mode = '';//'dev';
@@ -78,7 +78,8 @@ var Url = {
   "inventoryCTI":END_POINT_2+"v1/inventory/CTI",
   "sosUpdateStatus":END_POINT_2+"v1/ticket/sosUpdateStatus",
   "sosCiInformation": END_POINT_2+"v1/inventory/ciInformation",
-  "findItemLikeThis":END_POINT_2+"v1/inventory/findItemLikeThis"
+  "findItemLikeThis":END_POINT_2+"v1/inventory/findItemLikeThis",
+  "changeContract":END_POINT_2+"v1/project/changeContract"
   // 'ws_my_appointment': END_POINT_2+"v1/servicereport/appointment"
 }
 

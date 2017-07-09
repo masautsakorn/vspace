@@ -1,8 +1,8 @@
 import React,{Component} from 'react';
 import {Page,Navigator,BackButton,Toolbar,Tab, Tabbar} from 'react-onsenui';
 import {ToolbarButton,Icon,Splitter,SplitterSide,List,ListItem,SplitterContent} from 'react-onsenui';
-import 'onsenui/css/onsenui.css';
-import 'onsenui/css/onsen-css-components.css';
+// import 'onsenui/css/onsenui.css';
+// import 'onsenui/css/onsen-css-components.css';
 import {Link} from 'react-router';
 
 import ActionAssignment from 'material-ui/svg-icons/action/assignment';

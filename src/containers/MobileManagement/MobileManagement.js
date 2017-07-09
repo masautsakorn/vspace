@@ -1,13 +1,13 @@
 import React,{Component} from 'react';
-import {Page,Navigator,BackButton,Toolbar
+import {Page,Navigator,BackButton,Toolbar,SearchInput
   // ,Tab, Tabbar
 } from 'react-onsenui';
-import {ToolbarButton,Icon
+import {ToolbarButton,Icon,Fab
   // ,Splitter,SplitterSide
   // ,List,ListItem
   ,SplitterContent} from 'react-onsenui';
-import 'onsenui/css/onsenui.css';
-import 'onsenui/css/onsen-css-components.css';
+// import 'onsenui/css/onsenui.css';
+// import 'onsenui/css/onsen-css-components.css';
 import {Link} from 'react-router';
 
 import ActionAssignment from 'material-ui/svg-icons/action/assignment';
@@ -38,6 +38,10 @@ import MTab from 'material-ui/Tabs/Tab';
 
 import {LoadMain} from '../../actions/ActionManagement';
 import RenderCase from './RenderCase';
+import RenderSr from './RenderSr';
+import RenderProject from './RenderProject';
+
+import ProjectCreate from '../project/ProjectCreate2';
 
 class MobileDashboard extends Component{
   constructor(props){
@@ -78,13 +82,17 @@ class MainPage extends Component {
       menus:[], info:{},menusTab:[], indexType:indexType, tabValue: '1', nameType:nameType,
       data:[],
       type:[],
-      loaded:true
+      loaded:true,
+      dataStart:0,
+      dataLimit:10,
+      search:'',
+      openCreateProject:false
     }
   }
-  componentWillMount(){
+  componentDidMount(){
     var {tabValue} = this.state;
     var {indexType,selectedIndex} = this.state;
-    this.loadData(indexType,tabValue, [], "", selectedIndex,0,1000);
+    this.loadData(indexType,tabValue, [], this.state.search, selectedIndex,this.state.dataStart,this.state.dataLimit);
   }
   hide = () => {
     this.setState({isOpen: false});
@@ -99,14 +107,14 @@ class MainPage extends Component {
     localStorage.setItem("nameType", nameType);
     localStorage.setItem("selectedIndex", index);
     var {tabValue} = this.state;
-    this.loadData(indexType,tabValue, [], "", index,0,1000);
+    this.loadData(indexType,tabValue, [], this.state.search, index,this.state.dataStart,this.state.dataLimit);
   }
   handleChange = (value) => {
     this.setState({
       tabValue: value,
     });
     var {indexType,selectedIndex} = this.state;
-    this.loadData(indexType,value, [], "", selectedIndex,0,1000);
+    this.loadData(indexType,value, [], this.state.search, selectedIndex,this.state.dataStart,this.state.dataLimit);
   }
   loadData = (indexType,status, type,search,selectedIndex,dataStart,dataLimit) => {
     var that = this;
@@ -118,7 +126,18 @@ class MainPage extends Component {
   menusTab = (menusTabList,info) => {
     this.setState({menusTab:menusTabList,info:info});
   }
-
+  searchInput = (value) => {
+    console.log(value);
+    this.setState({search:value});
+    this.loadData(
+      this.state.indexType,
+      this.state.tabValue, [],
+      value,
+      this.state.selectedIndex,
+      this.state.dataStart,
+      this.state.dataLimit
+    );
+  }
   renderTabTop = () => {
     var {indexType, info,data} = this.state;
     var {navigator} = this.props;
@@ -130,13 +149,13 @@ class MainPage extends Component {
         onChange={this.handleChange}
       >
         <MTab label="In Process" value="1" style={{color:'#666666'}}>
-          <div style={{padding:20, background:'#fafafa'}}>
-            In Process Project ({data.length})
+          <div style={{padding:10, background:'#fafafa'}}>
+              <SearchInput onKeyUp={(e)=>this.searchInput(e.target.value)} style={{width:'100%'}} placeholder='Search' />
           </div>
         </MTab>
         <MTab label="Done" value="500" style={{color:'#666666'}}>
-          <div style={{padding:20}}>
-              Done Project ({data.length})
+          <div style={{padding:10}}>
+              <SearchInput onKeyUp={(e)=>this.searchInput(e.target.value)} style={{width:'100%'}} placeholder='Search' />
           </div>
         </MTab>
       </MTabs>);
@@ -146,18 +165,18 @@ class MainPage extends Component {
         onChange={this.handleChange}
       >
         <MTab label="In Process" value="1" style={{color:'#666666'}}>
-          <div style={{padding:20}}>
-              In Process ({data.length})
+          <div style={{padding:10}}>
+              <SearchInput onKeyUp={(e)=>this.searchInput(e.target.value)} style={{width:'100%'}} placeholder='Search' />
           </div>
         </MTab>
         <MTab label="Missed SLA" value="800" style={{color:'#666666'}}>
-          <div style={{padding:20}}>
-            Missed SLA ({data.length})
+          <div style={{padding:10}}>
+              <SearchInput onKeyUp={(e)=>this.searchInput(e.target.value)} style={{width:'100%'}} placeholder='Search' />
           </div>
         </MTab>
         <MTab label="Done" value="500" style={{color:'#666666'}}>
-          <div style={{padding:20}}>
-            Done ({data.length})
+          <div style={{padding:10}}>
+              <SearchInput onKeyUp={(e)=>this.searchInput(e.target.value)} style={{width:'100%'}} placeholder='Search' />
           </div>
         </MTab>
       </MTabs>);
@@ -167,18 +186,18 @@ class MainPage extends Component {
         onChange={this.handleChange}
       >
         <MTab label="In Process" value="1" style={{color:'#666666'}}>
-          <div style={{padding:20}}>
-            In Process SR ({data.length})
+          <div style={{padding:10}}>
+              <SearchInput onKeyUp={(e)=>this.searchInput(e.target.value)} style={{width:'100%'}} placeholder='Search' />
           </div>
         </MTab>
         <MTab label="Unsigned" value="800" style={{color:'#666666'}}>
-          <div style={{padding:20}}>
-            Unsigned SR ({data.length})
+          <div style={{padding:10}}>
+              <SearchInput onKeyUp={(e)=>this.searchInput(e.target.value)} style={{width:'100%'}} placeholder='Search' />
           </div>
         </MTab>
         <MTab label="Done" value="500" style={{color:'#666666'}}>
-          <div style={{padding:20}}>
-            Done SR ({data.length})
+          <div style={{padding:10}}>
+              <SearchInput onKeyUp={(e)=>this.searchInput(e.target.value)} style={{width:'100%'}} placeholder='Search' />
           </div>
         </MTab>
       </MTabs>);
@@ -208,6 +227,19 @@ class MainPage extends Component {
     }
     return content;
   }
+  renderDetail = () => {
+    var {navigator} = this.props;
+    var {indexType,data} = this.state;
+    console.log(indexType);
+    if(indexType==1)
+      return <RenderCase data={data} navigator={navigator}  />
+    else if(indexType==2)
+      return <RenderSr data={data} navigator={navigator}  />
+    else if(indexType==0)
+      return <div><RenderProject data={data} navigator={navigator} />
+        <Fab onTouchTap={()=>{navigator.pushPage({component:PageProjectCreate,key:'PageProjectCreate'}) }} style={{bottom:60}} position='bottom right'>+</Fab>
+        </div>
+  }
   renderContent = () => {
     var {navigator} = this.props;
     var {indexType,data} = this.state;
@@ -218,12 +250,14 @@ class MainPage extends Component {
         <div style={{position:'absolute',top:0, height:56, width:'100%'}}>
           {this.renderTabTop()}
         </div>
-        <div style={{overflow:'auto',flex:1, zIndex:0, marginTop:106}}>
+        <div style={{overflow:'auto',flex:1, zIndex:0, marginTop:96}}>
           <div onTouchTap={()=>{}} style={{marginBottom:56, color:'#000'}}>
 
             {//<div style={{padding:20}} onTouchTap={()=>{navigator.pushPage({component:PageTwo,key:'PageTwo'}) }}>Go To Next Page</div>
             }
-            <RenderCase data={data} navigator={navigator}  />
+            {
+              this.renderDetail()
+            }
           </div>
         </div>
         <div style={{position:'absolute',bottom:0, height:56, width:'100%'}}>
@@ -257,8 +291,10 @@ class MainPage extends Component {
     var {nameType} = this.state;
     var title = nameType;
 
-    return <Page key={"PageOne"} renderToolbar={()=><NavApp show={this.show} backButton={false} title={title} navigator={navigator} /> } >
+    return <Page key={"PageOne"} renderToolbar={()=>
+      <NavApp show={this.show} backButton={false} title={title} navigator={navigator} /> } >
       <MobileRightDrawer menusTab={this.menusTab} hide={this.hide} isOpen={this.state.isOpen} content={this.renderContent()} />
+
     </Page>
   }
 }
@@ -277,6 +313,27 @@ class PageTwo extends Component{
       )
     }
 }
+
+class PageProjectCreate extends Component{
+  constructor(props){
+    super(props);
+  }
+  render(){
+    var {navigator} = this.props;
+    return (<Page key={"PageProjectCreate"} renderToolbar={()=><NavApp backButton={true} title={"Create Project"} navigator={navigator} />}>
+        <div style={{padding:10}}>
+          <ProjectCreate info={InfoGen.info}
+            onCloseProjectCreate={
+              ()=>{
+                navigator.popPage();
+              }
+            }
+          />
+        </div>
+      </Page>
+    )
+  }
+}
 const PageThree = ({navigator}) => (
   <Page key={"PageThree"} renderToolbar={()=><NavApp backButton={true} title={"Page Three"} navigator={navigator} />}>
     <div style={{display:'flex', padding:10}}>
@@ -284,6 +341,8 @@ const PageThree = ({navigator}) => (
     </div>
   </Page>
 )
+
+
 class NavApp extends Component{
   constructor(props){
     super(props);

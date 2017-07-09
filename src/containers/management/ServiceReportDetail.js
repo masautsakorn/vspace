@@ -294,8 +294,8 @@ class ServiceReportDetail extends Component {
                 onRequestDelete={() => this.handleRequestDeleteAssociate(item.engineer)}>
                 <div style={{display:'flex'}}>
                   <div style={{flex:1}}>{item.engineer_name}</div>
-                  <div style={{flex:1, marginLeft:15}}>
-                    <a className="link" onTouchTap={()=>this.toggleTaxiAssociate(parseInt(item.request_taxi),item.engineer)}>{((parseInt(item.request_taxi))?"เบิกค่าเดินทาง":"ไม่เบิกค่าเดินทาง")}</a>
+                  <div style={{flex:1, marginLeft:0}}>
+                    <div className="link" onTouchTap={()=>this.toggleTaxiAssociate(parseInt(item.request_taxi),item.engineer)}>{((parseInt(item.request_taxi))?"เบิกค่าเดินทาง":"ไม่เบิกค่าเดินทาง")}</div>
                   </div>
                 </div>
               </Chip>
@@ -346,6 +346,8 @@ class ServiceReportDetail extends Component {
                         disableYearSelection={this.state.disableYearSelection}
                       />
                   </div>
+              </div>
+              <div style={{display:'flex'}}>
                   <div style={{flex:1}}>
                       <TimePicker
                         format="24hr"
@@ -382,8 +384,8 @@ class ServiceReportDetail extends Component {
               <Chip style={styles.chip}>
                 <div style={{color:'#000000',marginRight:10, display:'flex'}}>
                   <div style={{flex:1}}>{this.state.editData.engineer_name}</div>
-                  <div style={{flex:1, marginLeft:15}}>
-                    <a className="link" onTouchTap={()=>this.toggleTaxi(parseInt(this.state.editData.request_taxi))}>{((parseInt(this.state.editData.request_taxi))?"เบิกค่าเดินทาง":"ไม่เบิกค่าเดินทาง")}</a>
+                  <div style={{flex:1, marginLeft:0}}>
+                    <div className="link" onTouchTap={()=>this.toggleTaxi(parseInt(this.state.editData.request_taxi))}>{((parseInt(this.state.editData.request_taxi))?"เบิกค่าเดินทาง":"ไม่เบิกค่าเดินทาง")}</div>
                   </div>
                 </div>
               </Chip>
@@ -408,7 +410,7 @@ class ServiceReportDetail extends Component {
         //   {pdfElement}
         // </div>
         serviceReport = (
-          <Paper zDepth={2} style={{padding:12,margin:12}}>
+          <Paper zDepth={2} style={{padding:12,margin:'10px 2px'}}>
             <div style={{display:'flex'}}>
               <div style={{flex:1}}>{"Edit "+ propsServiceReport.no_task}</div>
               <div style={{width:30}}>
@@ -423,25 +425,29 @@ class ServiceReportDetail extends Component {
       }else{
 
         if(propsServiceReport.path_service_report){
-          pdfElement = <PresentData label={"PDF"} value={<a className="link" style={{color:'#ffffff', fontStyle:'italic'}} target="new" href={END_POINT_PDF+propsServiceReport.path_service_report} >Service Report</a>} />
+          pdfElement = <PresentData label={"PDF"} value={<div className="link" style={{color:'#ffffff', fontStyle:'italic'}} target="new" href={END_POINT_PDF+propsServiceReport.path_service_report} >Service Report</div>} />
         }else{
           pdfElement = <PresentData label={"PDF"} value={"-"} />
         }
         var asso = propsServiceReport.associate_engineer.map((item,i)=>{
             return <div style={{}} key={i}>{item.engineer_name}
-                    <a className="link" style={{marginLeft:15,fontStyle:'italic'}}>{((parseInt(item.request_taxi))?"เบิกค่าเดินทาง":"ไม่เบิกค่าเดินทาง")}</a>
+                    <div className="link" style={{marginLeft:0,fontStyle:'italic'}}>{((parseInt(item.request_taxi))?"เบิกค่าเดินทาง":"ไม่เบิกค่าเดินทาง")}</div>
                    </div>
         });
 
         var controlEditSr;
         if(propsServiceReport.can_edit==1 && propsServiceReport.create_by===InfoGen.email){
           controlEditSr = <div style={{display:'flex'}}>
-            <div style={{width:60,textAlign:'right'}}><a className="link" onTouchTap={()=>{this.setEditMode(propsServiceReport.sid, propsServiceReport)}}><EditorBorderColor style={{color:'blue',width:14,height:14}} title="Edit" /> แก้ไข</a></div>
+            <div style={{width:'100%',textAlign:'right'}}>
+              <div className="link" onTouchTap={()=>{this.setEditMode(propsServiceReport.sid, propsServiceReport)}}>
+                <EditorBorderColor style={{color:'blue',width:14,height:14}} title="Edit" /> แก้ไข
+              </div>
+            </div>
             <div style={{flex:1}}></div>
           </div>
         }else if(propsServiceReport.can_edit!=1){
           controlEditSr = <div style={{display:'flex'}}>
-            <div style={{width:300,textAlign:'left'}}>ไม่สามารถแก้ไขได้เนื่องจาก Staff เริ่มงานแล้ว</div>
+            <div style={{width:'100%',textAlign:'left'}}>ไม่สามารถแก้ไขได้เนื่องจาก Staff เริ่มงานแล้ว</div>
             <div style={{flex:1}}></div>
           </div>
         }else{
@@ -450,7 +456,7 @@ class ServiceReportDetail extends Component {
 
         var primaryText =
         <div>
-            <PresentDataHeader label={controlEditSr} />
+            <div style={{marginBottom:10}}>{controlEditSr} </div>
             <PresentData
               label={<div>Subject</div>}
               value={propsServiceReport.subject_service_report} />
@@ -459,7 +465,7 @@ class ServiceReportDetail extends Component {
         </div>
         var engineer = <div>
           {propsServiceReport.engineer_name}
-          <a className="link" style={{marginLeft:15,fontStyle:'italic'}}>{((parseInt(propsServiceReport.request_taxi))?"เบิกค่าเดินทาง":"ไม่เบิกค่าเดินทาง")}</a>
+          <div className="link" style={{marginLeft:0,fontStyle:'italic'}}>{((parseInt(propsServiceReport.request_taxi))?"เบิกค่าเดินทาง":"ไม่เบิกค่าเดินทาง")}</div>
         </div>
 
         var styleBtn = {
@@ -477,11 +483,13 @@ class ServiceReportDetail extends Component {
         var actionResendEmail;
         if(propsServiceReport.closed_datetime!="0000-00-00 00:00" && propsServiceReport.customer_signated==0){
             actionResendEmail = <PresentData label={"#"} value={
-              <span>
-                <span onTouchTap={()=>{this.resendEmail(propsServiceReport.sid)}} className="btn two">Resend Email</span>
-                <a target="_new" href={"./pages/signaturepad/customer/?task="+propsServiceReport.sid+"&engineer="+InfoGen.email}><span className="btn four">Link Sign</span></a>
-                <a style={{}} ><span className="btn five" onTouchTap={()=>{this.setEditContact()}}>{((this.state.editContact)?'ยกเลิกแก้ไข':'แก้ไขผู้เซนต์')}</span></a>
-              </span>
+              <div className="row" style={{marginLeft:0,marginRight:0}}>
+                <div style={{marginBottom:5}} onTouchTap={()=>{this.resendEmail(propsServiceReport.sid)}} className="col-xs-12 col-sm-2 col-md-2 col-lg-2 col-md m-b-15 btn two">Resend Email</div>
+                <a className="col-xs-12 col-sm-2 col-md-2 col-lg-2 col-md m-b-15 btn four" target="_new" style={{marginBottom:5,color:'#ffffff'}} href={"./pages/signaturepad/customer/?task="+propsServiceReport.sid+"&engineer="+InfoGen.email}><div className=" ">
+                  Link Sign
+                </div></a>
+                <div style={{marginBottom:5}} className="col-xs-12 col-sm-2 col-md-2 col-lg-2 col-md m-b-15 btn five" onTouchTap={()=>{this.setEditContact()}}>{((this.state.editContact)?'ยกเลิกแก้ไข':'แก้ไขผู้เซนต์')}</div>
+              </div>
             } />
         }
         var df = {
@@ -497,18 +505,33 @@ class ServiceReportDetail extends Component {
           padding:4
         }
         var iw = {
-          width: 400
+          width: '100%',
+          WebkitTextFillColor:'#ffffff'
         }
         var formEditContact;
         var {edit} = this.state;
         if(this.state.editContact){
           var tmpForm = <div>
-            <div style={df}><div style={fl}>Name: </div><div style={fr}><input style={iw} onChange={(e)=>{this.changeCName(e.target.value)}} value={edit.end_user_contact_name_service_report} /></div></div>
-            <div style={df}><div style={fl}>Email: </div><div style={fr}><input style={iw} onChange={(e)=>{this.changeCEmail(e.target.value)}} value={edit.end_user_email_service_report} /></div></div>
-            <div style={df}><div style={fl}>Phone: </div><div style={fr}><input style={iw} onChange={(e)=>{this.changeCPhone(e.target.value)}} value={edit.end_user_phone_service_report} /></div></div>
-            <div style={df}><div style={fl}>Mobile: </div><div style={fr}><input style={iw} onChange={(e)=>{this.changeCMobile(e.target.value)}} value={edit.end_user_mobile_service_report} /></div></div>
-            <div style={df}><div style={fl}>Company: </div><div style={fr}><input style={iw} onChange={(e)=>{this.changeCCompany(e.target.value)}} value={edit.end_user_company_name_service_report} /></div></div>
-            <div style={df}><div style={fl}></div><div style={fr}><span className="btn five" onTouchTap={this.changeContactAfterClose}>SAVE</span></div></div>
+            <div style={df}>
+              <div style={fr}>
+              <TextField hintText="Name" inputStyle={iw} style={iw} onChange={(e)=>{this.changeCName(e.target.value)}} value={edit.end_user_contact_name_service_report} />
+              </div>
+            </div>
+            <div style={df}>
+              <div style={fr}><TextField inputStyle={iw} hintText="Email" style={iw} onChange={(e)=>{this.changeCEmail(e.target.value)}} value={edit.end_user_email_service_report} /></div>
+            </div>
+            <div style={df}>
+              <div style={fr}><TextField hintText="Phone" inputStyle={iw} style={iw} onChange={(e)=>{this.changeCPhone(e.target.value)}} value={edit.end_user_phone_service_report} /></div>
+            </div>
+            <div style={df}>
+              <div style={fr}><TextField hintText="Mobile" inputStyle={iw} style={iw} onChange={(e)=>{this.changeCMobile(e.target.value)}} value={edit.end_user_mobile_service_report} /></div>
+            </div>
+            <div style={df}>
+              <div style={fr}><TextField hintText="Company" inputStyle={iw} style={iw} onChange={(e)=>{this.changeCCompany(e.target.value)}} value={edit.end_user_company_name_service_report} /></div>
+            </div>
+            <div style={df}>
+              <div style={{marginLeft:0,marginRight:0}} className="row" ><div className="col-xs-12 col-sm-2 col-md-2 col-lg-2 col-md m-b-15 btn five" onTouchTap={this.changeContactAfterClose}>SAVE</div></div>
+            </div>
           </div>
           formEditContact = <PresentData label="Edit Contact" value={tmpForm} />
         }

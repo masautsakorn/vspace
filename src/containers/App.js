@@ -4,7 +4,7 @@ import Header from '../components/Header';
 import LeftDrawer from '../components/LeftDrawer';
 import withWidth, {LARGE, SMALL} from 'material-ui/utils/withWidth';
 import ThemeDefault from '../theme-default';
-import Data from '../data';
+// import Data from '../data';
 
 import Url from '../config/url';
 import get from '../config/Get';
@@ -27,9 +27,9 @@ class App extends React.Component {
     formData.append('email',InfoGen.email);
     // var basename = (document.location.href);
     get(Url.info, formData).then(function(resInfo){
-        console.log(Data.menus);
+        // console.log(Data.menus);
         if(resInfo.data.user_sid){
-          console.log(resInfo.data.menus);
+          // console.log(resInfo.data.menus);
           // Data.menu = resInfo.data.menus;
           that.setState({menus:resInfo.data.menusV4,info:resInfo.data});
         }else{

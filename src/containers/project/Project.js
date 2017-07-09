@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import Url from '../config/url';
-import get from '../config/Get';
-import Put from '../config/Put';
-import jPost from '../config/jPost';
+import Url from '../../config/url';
+import get from '../../config/Get';
+import Put from '../../config/Put';
+import jPost from '../../config/jPost';
 
 import CallService from '../config/CallService';
 import InfoGen from '../config/InfoGen';

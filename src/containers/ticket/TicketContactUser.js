@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import TextField from 'material-ui/TextField';
 
 import InfoGen from '../../config/InfoGen';
 import EditorBorderColor from 'material-ui/svg-icons/editor/border-color';
@@ -15,9 +16,10 @@ export default class TicketContactUser extends Component {
       this.props.cEndUser(data);
   }
   render(){
+    var txtStyle = {WebkitTextFillColor:'#ffffff',color:'#ffffff'};
     var {data} = this.props;
     console.log(data);
-    return <div style={{marginTop:25}}>
+    return <div style={{marginTop:5}}>
         <PresentDataHeader label={
           <div style={{display:'flex'}}>
             <div style={{flex:1}}>Contact User</div>
@@ -39,23 +41,23 @@ export default class TicketContactUser extends Component {
           (this.state.editEndUser)?
             <div>
                 <PresentData label={"Name"} value={
-                  <input style={{width:'100%'}} onChange={(e)=>this.setState({end_user_contact_name:e.target.value})} value={this.state.end_user_contact_name} />
+                  <TextField hintStyle={txtStyle} inputStyle={txtStyle} style={txtStyle} hintText="Name" style={{width:'100%'}} onChange={(e)=>this.setState({end_user_contact_name:e.target.value})} value={this.state.end_user_contact_name} />
                 } />
                 <PresentData label={"Email"} value={
-                  <input style={{width:'100%'}} onChange={(e)=>this.setState({end_user_email:e.target.value})} value={this.state.end_user_email} />
+                  <TextField hintStyle={txtStyle} inputStyle={txtStyle} style={txtStyle} hintText="Email" style={{width:'100%'}} onChange={(e)=>this.setState({end_user_email:e.target.value})} value={this.state.end_user_email} />
                 } />
                 <PresentData label={"Mobile"} value={
-                  <input style={{width:'100%'}} onChange={(e)=>this.setState({end_user_mobile:e.target.value})} value={this.state.end_user_mobile} />
+                  <TextField hintStyle={txtStyle} inputStyle={txtStyle} style={txtStyle} hintText="Mobile" style={{width:'100%'}} onChange={(e)=>this.setState({end_user_mobile:e.target.value})} value={this.state.end_user_mobile} />
                 } />
                 <PresentData label={"Phone"} value={
-                  <input style={{width:'100%'}} onChange={(e)=>this.setState({end_user_phone:e.target.value})} value={this.state.end_user_phone} />
+                  <TextField hintStyle={txtStyle} inputStyle={txtStyle} style={txtStyle} hintText="Phone" style={{width:'100%'}} onChange={(e)=>this.setState({end_user_phone:e.target.value})} value={this.state.end_user_phone} />
                 } />
                 <PresentData label={"Company"} value={
-                  <input style={{width:'100%'}} onChange={(e)=>this.setState({end_user_company_name:e.target.value})} value={this.state.end_user_company_name} />
+                  <TextField hintStyle={txtStyle} inputStyle={txtStyle} style={txtStyle} hintText="Company" style={{width:'100%'}} onChange={(e)=>this.setState({end_user_company_name:e.target.value})} value={this.state.end_user_company_name} />
                 } />
                 <PresentData label={""} value={
-                  <div>
-                    <span className="btn four" onTouchTap={
+                  <div style={{display:'flex'}}>
+                    <div className="btn four" style={{maxWidth:'120px',width:'100%'}} onTouchTap={
                       ()=>{
                           this.cEndUser(
                           data.sid,
@@ -66,17 +68,17 @@ export default class TicketContactUser extends Component {
                           this.state.end_user_company_name);
                           // this.setState({editEndUser:!this.state.editEndUser});
                       }
-                    }>SAVE</span>
-                    <span className="btn five" onTouchTap={()=>this.setState({editEndUser:!this.state.editEndUser})}>CANCEL</span>
+                    }>SAVE</div>
+                    <div className="btn five" style={{maxWidth:'120px',width:'100%'}} onTouchTap={()=>this.setState({editEndUser:!this.state.editEndUser})}>CANCEL</div>
                   </div>
                 } />
             </div>
           :
             <div>
               <PresentData label={"Name"} value={data.end_user_contact_name} />
-              <PresentData label={"Email"} value={data.end_user_email} />
+              <PresentData styleRight={{flex:1,overflow: 'hidden',textOverflow: 'ellipsis',whiteSpace: 'nowrap'}} label={"Email"} value={data.end_user_email} />
               <PresentData label={"Mobile"} value={data.end_user_mobile} />
-              <PresentData label={"Phone"} value={data.end_user_phone} />
+              <PresentData styleRight={{flex:1,overflow: 'hidden',textOverflow: 'ellipsis',whiteSpace: 'nowrap'}} label={"Phone"} value={data.end_user_phone} />
               <PresentData label={"Company"} value={data.end_user_company_name} />
             </div>
         }

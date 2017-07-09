@@ -2,10 +2,10 @@ import  React from 'react';
 import {lightBlack} from 'material-ui/styles/colors';
 
 const ColumnCase = [
-  // {
-  //   Header:'End user',
-  //   accessor:'end_user'
-  // },
+  {
+    Header:'End user',
+    accessor:'end_user'
+  },
   {
     Header:'Remedy No.',
     accessor:'refer_remedy_hd',

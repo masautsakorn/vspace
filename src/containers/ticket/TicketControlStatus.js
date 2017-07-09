@@ -109,11 +109,38 @@ class TicketControlStatus extends Component {
             <RaisedButton onTouchTap={()=>this.setState({formStatus:false,statusTxt:''})} label="Cancel" secondary={true} style={{margin:4}} />
         </div>
     }
+    var stylesBtn = {
+      secondary: {
+        backgroundColor:"#ffffff",
+        marginBottom:5
+      },
+      primary: {
+        backgroundColor:'#00bcd4',
+        color:'#ffffff',
+        marginBottom:5
+      }
+    }
     var controlBtn = <div>
-      <RaisedButton onTouchTap={()=>this.openFormStatus('New','1')} primary={status.new} label="New" style={{margin: 4}} />
-      <RaisedButton onTouchTap={()=>this.openFormStatus('Doing','2')} primary={status.doing} label="Doing"  style={{margin: 4}} />
-      <RaisedButton onTouchTap={()=>this.openFormStatus('Done','5')} primary={status.done} label="Done" style={{margin: 4}} />
-      {formStatus}
+      <div className="row" style={{margin:0}}>
+        <div className="col-xs-12 col-sm-2 col-md-2 col-lg-2 col-md btn"
+          style={(status.new)?stylesBtn.primary:stylesBtn.secondary}
+          onTouchTap={()=>this.openFormStatus('New','1')} >
+            New
+        </div>
+        <div className="col-xs-12 col-sm-2 col-md-2 col-lg-2 col-md btn"
+          style={(status.doing)?stylesBtn.primary:stylesBtn.secondary}
+          onTouchTap={()=>this.openFormStatus('Doing','2')}>
+            Doing
+        </div>
+        <div className="col-xs-12 col-sm-2 col-md-2 col-lg-2 col-md btn"
+          style={(status.done)?stylesBtn.primary:stylesBtn.secondary}
+          onTouchTap={()=>this.openFormStatus('Done','5')} >
+            Done
+        </div>
+      </div>
+      <div>
+        {formStatus}
+      </div>
     </div>
     var control_status_ticket =
           <div>

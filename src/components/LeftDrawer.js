@@ -62,14 +62,24 @@ const LeftDrawer = (props) => {
           <span style={styles.avatar.span}>{props.username}</span>
         </div>
         <div>
-          {props.menus.map((menu, index) =>
-            <MenuItem
-              key={index}
-              style={styles.menuItem}
-              primaryText={menu.name}
-              // leftIcon={menu.icon}
-              containerElement={<Link onTouchTap={()=>props.navDrawerClose()} to={menu.link}/>}
-            />
+          {props.menus.map((menu, index) => {
+              if(menu.name=='Leave & Busy' || menu.name=='Standby Night'){
+                return <MenuItem
+                  key={index}
+                  style={styles.menuItem}
+                  primaryText={menu.name} onTouchTap={()=>{window.location = (menu.link)} }
+
+                />
+              }else{
+                return <MenuItem
+                  key={index}
+                  style={styles.menuItem}
+                  primaryText={menu.name}
+                  // leftIcon={menu.icon}
+                  containerElement={<Link onTouchTap={()=>props.navDrawerClose()} to={menu.link}/>}
+                />
+              }
+            }
           )}
         </div>
     </Drawer>

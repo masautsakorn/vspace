@@ -5,13 +5,10 @@ import {ToolbarButton,Icon,Splitter,SplitterSide,List,ListItem,SplitterContent,L
 
 import {LoadCaseDetail} from '../../actions/ActionManagement';
 import {PresentData} from '../management/PresentData';
-import TicketOwner from '../ticket/TicketOwner';
-import ServiceReportDialog from '../projectplan/ServiceReportDialog2';
-import TicketContactUser from '../ticket/TicketContactUser';
-import TicketStatus from '../ticket/TicketStatus';
+import ProjectDetail from '../project/ProjectDetail';
 
 import InfoGen from '../../config/InfoGen';
-class RenderCase extends Component {
+class RenderProject extends Component {
   constructor(props){
     super(props);
     console.log(this.props);
@@ -29,27 +26,22 @@ class RenderCase extends Component {
 
       // <img src={`http://placekitten.com/g/`} className='list-item__thumbnail' />
     return (
-      <ListItem key={index} onTouchTap={()=>{navigator.pushPage({component:PageCaseDetial,key:'PageCaseDetial',sid:row.sid,title:row.no_ticket}) }}>
+      <ListItem key={index} onTouchTap={()=>{navigator.pushPage({component:PageTwo,key:'PageTwo',sid:row.sid,title:row.name}) }}>
         <div className='left'>
         </div>
         <div className='center'>
           <div style={{display:'flex',width:'100%'}}>
-            <div style={{flex:1}}>{row.case_type}</div>
-            <div style={{flex:1,textAlign:'right'}}>{row.no_ticket}</div>
+            <div style={{flex:1}}>{row.name}</div>
+            {
+              (row.contract_no && row.contract_no!="None Contract")?
+              <div style={{flex:1,textAlign:'right'}}>{row.contract_no}</div>:
+              null
+            }
           </div>
-          <div>{row.subject}</div>
-
+          <div>{row.end_user}</div>
           <div style={{display:'flex',width:'100%'}}>
-            <div style={{flex:1}}>Status </div>
-            <div style={{flex:1,textAlign:'right'}}>{row.status_label}</div>
-          </div>
-          <div style={{display:'flex',width:'100%'}}>
-            <div style={{flex:1}}>Owner </div>
-            <div style={{flex:1,textAlign:'right'}}>{row.owner_thainame}</div>
-          </div>
-          <div style={{display:'flex',width:'100%'}}>
-            <div style={{flex:3}}>Created {row.create_by_name}</div>
-            <div style={{flex:2,textAlign:'right'}}>{row.create_datetime}</div>
+            <div style={{flex:3}}>Created </div>
+            <div style={{flex:2,textAlign:'right'}}>{row.create_by_name}<br/>{row.create_datetime}</div>
           </div>
         </div>
       </ListItem>
@@ -78,7 +70,7 @@ class RenderCase extends Component {
   }
 }
 
-class PageCaseDetial extends Component{
+class PageTwo extends Component{
     constructor(props){
       super(props);
       // console.log(this.props.navigator);
@@ -89,7 +81,7 @@ class PageCaseDetial extends Component{
       this.state = {sid:sid,title:title, data:{}, tasks:[],projectContact:[],listUserCanAddTask:InfoGen.listUserCanAddTask}
     }
     componentWillMount(){
-      this.loadData();
+      // this.loadData();
     }
     loadData = () => {
       var that = this;
@@ -98,14 +90,14 @@ class PageCaseDetial extends Component{
         that.setState({data:res.data,tasks:res.tasks});
       });
     }
-    loadTicket = () => {
-      this.loadData();
-    }
-    handleCreatedService = () => {
-      this.loadTicket();
-    }
-    handleOpenAppointment = () => {
-    }
+    // loadTicket = () => {
+    //   this.loadData();
+    // }
+    // handleCreatedService = () => {
+    //   this.loadTicket();
+    // }
+    // handleOpenAppointment = () => {
+    // }
     cEndUser = (value) => {
       console.log(value);
     }
@@ -115,34 +107,7 @@ class PageCaseDetial extends Component{
       var {data, tasks} = this.state;
       return (<Page key={"PageTwo"} renderToolbar={()=><NavApp backButton={true} title={title} navigator={navigator} />}>
           <div style={{padding:10}}>
-            <PresentData label={"Subject"} value={data.subject}  />
-            <PresentData label={"No."} value={data.no_ticket+ ((data.refer_remedy_hd)?" ("+data.refer_remedy_hd+")":"")} />
-            <PresentData label={"Contract"} value={data.contract_no} />
-            <PresentData label={"Serial"}  value={data.serial_no} />
-            <PresentData label={"Urgency"} value={data.urgency} />
-            <PresentData label={"Type"} value={data.case_type} />
-            <PresentData label={"End user"} value={data.end_user} />
-            <PresentData label={"Site"} value={data.end_user_site} />
-            <PresentData label={"Description"} value={data.description} />
-
-            <TicketOwner data={data} />
-
-            <ServiceReportDialog
-              loadNew={this.loadTicket}
-              ticket={data}
-              onOpenAppointment={this.handleOpenAppointment}
-              serviceReport={tasks}
-              onCreatedService={this.handleCreatedService}
-              ticket_sid={this.props.sid}
-              projectContact={this.state.projectContact}
-              listUserCanAddTask={this.state.listUserCanAddTask}  />
-
-            <TicketContactUser data={data} cEndUser={this.cEndUser} />
-
-            <TicketStatus data={data} loadTicket={this.loadTicket} />
-            {
-              //<div style={{padding:20}} onTouchTap={()=>{navigator.pushPage({component:PageThree,key:'PageThree'}) }}>Go To Next Page</div>
-            }
+            <ProjectDetail navigator={navigator} info={InfoGen.info} project_sid={this.state.sid} />
           </div>
         </Page>
       )
@@ -179,4 +144,4 @@ class NavApp extends Component{
   }
 }
 
-export default RenderCase;
+export default RenderProject;
