@@ -22,12 +22,14 @@ export default class TicketStatus extends Component {
       }
     }
     var {data} = this.props;
-    
     console.log(data);
+    console.log(data.sid);
     var slaRemedy;
     if(this.state.openFormSlaRemedy){
-      slaRemedy = <CardContent style={{border:'1px solid #dedede'}}>
-      <TicketSlaRemedy ticket_sid={data.sid} cancelSlaRemedy={()=>{this.setState({openFormSlaRemedy:false}) }} status={this.state.toSlaStatus} statusTxt={this.state.toSlaTxt} /></CardContent>;
+      slaRemedy =
+        <TicketSlaRemedy ticket_sid={data.sid} loadTicket={this.loadTicket}
+        cancelSlaRemedy={()=>{this.setState({openFormSlaRemedy:false}) }}
+        status={this.state.toSlaStatus} statusTxt={this.state.toSlaTxt} />
     }
 
     var SLA;
@@ -40,9 +42,8 @@ export default class TicketStatus extends Component {
         if(data.sla_remedy_array.length>0){
           slaRow.push(
             <div key={-1} style={{display:'flex', marginBottom:'10px', width:'100%'}}>
-              <div style={{flex:1,overflow:'hidden'}}><span >SLA Name</span></div>
-              <div style={{flex:1,overflow:'hidden'}}><span >Due Datetime</span></div>
-              <div style={{flex:1,overflow:'hidden'}}><span >Status</span></div>
+              <div style={{flex:3,overflow:'hidden',color:'#ffffff'}}><span >SLA Due Datetime</span></div>
+              <div style={{flex:2,overflow:'hidden',color:'#ffffff',textAlign:'center'}}><span >Status</span></div>
             </div>
           );
         }
@@ -54,9 +55,8 @@ export default class TicketStatus extends Component {
       data.sla_remedy_array.forEach((item,i)=>{
         slaRow.push(
             <div key={i} style={{display:'flex',marginBottom:'10px', width:'100%'}}>
-              <div style={{flex:1,overflow:'hidden',color:'#ffffff'}}>{item.name}</div>
-              <div style={{flex:1,overflow:'hidden',color:'#ffffff'}}>{item.due_datetime}</div>
-              <div style={{flex:1,overflow:'hidden',color:'#ffffff'}}>{item.status}</div>
+              <div style={{flex:3,overflow:'hidden',color:'#ffffff'}}><div>{item.name}</div><div>{item.due_datetime}</div></div>
+              <div style={{flex:2,overflow:'hidden',color:'#ffffff',textAlign:'center'}}>{item.status}</div>
             </div>
         );
         if(data.sla_remedy_array.length===(i+1)){
@@ -109,44 +109,54 @@ export default class TicketStatus extends Component {
 
       // Call Center Department
       SLA =
-      <div style={{width:'100%'}}>
-        <PresentData label="SLA"
-          value={slaRow} />
+      <div style={{padding:10, backgroundColor:'#1b90a1'}}>
+        <div style={{color:'#ffffff',textAlign:'center'}}>SLA Table</div>
+        {slaRow}
       </div>
     }else{
-      btnActivitySlaRemedy = <div style={{display:'flex'}}><div style={{flex:1}}><RaisedButton onTouchTap={()=>{this.setState({openFormSlaRemedy:true,toSlaStatus:8, toSlaTxt:'Worklog'});}} style={styles.button}>Worklog</RaisedButton></div><div style={{flex:1}}></div></div>
+      btnActivitySlaRemedy = <div style={{display:'flex'}}>
+        <div style={{flex:1}}>
+          <RaisedButton onTouchTap={()=>{this.setState({openFormSlaRemedy:true,toSlaStatus:8, toSlaTxt:'Worklog'});}} style={styles.button}>Worklog</RaisedButton>
+        </div>
+        <div style={{flex:1}}></div>
+      </div>
       SLA = <TicketControlStatus loadNew={this.loadTicket} ticket_sid={data.sid} data={data} />;
     }
     // END SLA
 
     //WORKLOG ZONE
     var worklog = [];
-    // console.log(data.worklog);
+    console.log('worklog',data.worklog);
     if(data.worklog){
       data.worklog.forEach((item,i)=>{
           worklog.push(
             <div key={i} style={{display:'flex', marginBottom:10, borderBottom:'1px solid #ffffff'}}>
-              <div style={{width:'60px'}}><Avatar src={item.create_by_pic} /></div>
-              <div style={{flex:1}}>
+              <div style={{flex:1,color:'#ffffff', padding:10}}>
                 {item.worklog}<br/>
-                <small style={{fontSize:'70%'}}>Created {item.create_datetime}</small>
+                <small style={{}}>Created {((item.created_name)?item.created_name:item.create_by)}</small><br/>
+                <small style={{}}>{item.create_datetime}</small>
               </div>
             </div>
           );
       });
     }
 
-    var contetnSlaRemedy = <div>
-        <div style={{marginBottom:10}}>{slaRemedy}</div>
-        <div>
+    var contentSlaRemedy = <div>
+        <div style={{margin:'10px 0px'}}>
           {btnActivitySlaRemedy}
+        </div>
+        <div>
+          {slaRemedy}
         </div>
     </div>;
 
     var worklogElement =
     <div>
-      <PresentDataBody label={""} value={contetnSlaRemedy} />
-      <PresentDataBody label={"Worklog"} value={worklog} />
+      <div>{contentSlaRemedy}</div>
+      <div style={{marginTop:25,adding:10,backgroundColor:'#1b90a1'}}>
+        <div style={{textAlign:'center', color:'#ffffff',borderBottom:'1px solid #ffffff'}}>Worklog</div>
+        <div>{worklog}</div>
+      </div>
     </div>
 
     control_status_ticket =
@@ -156,7 +166,7 @@ export default class TicketStatus extends Component {
     </div>;
 
 
-    return (<div>
+    return (<div style={{marginTop:25}}>
         {control_status_ticket}
       </div>
     )

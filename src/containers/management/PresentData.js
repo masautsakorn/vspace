@@ -186,7 +186,7 @@ var styles = {
     boxSizing: 'border-box'
   },
   value:{
-    padding:10, backgroundColor:'#00bcd4', color:'#ffffff',flex:1, marginRight:0,borderBottom:'1px solid #fcfcfc',height:'100%',
+    padding:10, backgroundColor:'#1b90a1', color:'#ffffff',flex:1, marginRight:0,borderBottom:'1px solid #fcfcfc',height:'100%',
     boxSizing: 'border-box'
   },
   valueForm:{
@@ -197,7 +197,7 @@ var styles = {
     padding:4, backgroundColor:'rgb(236, 240, 241)', color:'#000000',width:'100%',borderBottom:'1px solid #fcfcfc', height:'100%'
   },
   valueS:{
-    padding:4, backgroundColor:'#00bcd4', color:'#ffffff',flex:1, marginRight:0,borderBottom:'1px solid #fcfcfc',height:'100%'
+    padding:4, backgroundColor:'#1b90a1', color:'#ffffff',flex:1, marginRight:0,borderBottom:'1px solid #fcfcfc',height:'100%'
   },
   valueSF:{
     padding:4, backgroundColor:'rgb(236, 240, 241)', color:'#ffffff',flex:1, marginRight:0,borderBottom:'1px solid #fcfcfc',height:'100%'
@@ -210,14 +210,14 @@ var styles = {
     height:40
   },
   taskHeader: {
-    padding:12, backgroundColor:'#00bcd4', color:'#ffffff',borderBottom:'1px solid #fcfcfc', marginRight:1,
+    padding:12, backgroundColor:'#1b90a1', color:'#ffffff',borderBottom:'1px solid #fcfcfc', marginRight:1,
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     height:40
   },
   taskFooter: {
-    padding:12, backgroundColor:'#00bcd4', color:'#ffffff',borderBottom:'1px solid #fcfcfc',
+    padding:12, backgroundColor:'#1b90a1', color:'#ffffff',borderBottom:'1px solid #fcfcfc',
     // marginRight:1,
     whiteSpace: 'nowrap',
     overflow: 'hidden',

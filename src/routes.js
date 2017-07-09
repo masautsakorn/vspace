@@ -8,6 +8,7 @@ import LoginPage from './containers/LoginPage';
 import FormPage from './containers/FormPage';
 import TablePage from './containers/TablePage';
 import Dashboard from './containers/DashboardPageSOS';
+// import Dashboard from './containers/Project/Projec';
 import Management from './containers/management/Management';
 import Calendar from './containers/Calendar';
 import Url from './config/url';
@@ -20,13 +21,22 @@ import Profile from './containers/Profile';
 import MobileDashboard from './containers/MobileDashboard/MobileDashboard';
 import MobileManagement from './containers/MobileManagement/MobileManagement';
 
+import Standby7x24 from './containers/standby/Standby7x24';
+
 // import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 // import ThemeDefault from './theme-default';
 import { Router, browserHistory } from 'react-router';
 var isMobile = false;
 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
   isMobile = true;
+  require('onsenui/css/onsenui.css');
+  require('onsenui/css/onsen-css-components.css');
 }
+
+var isIE = /*@cc_on!@*/false || !!document.documentMode;
+
+console.log(isIE);
+
 var formData = new FormData();
 class routes extends React.Component {
   constructor(props){
@@ -58,13 +68,13 @@ class routes extends React.Component {
     }
   }
   dashboard = () =>{
-    if(isMobile)
+    if(isMobile && (InfoGen.email=="autsakorn.t@firstlogic.co.th" || InfoGen.email=="detomas_25@hotmail.com"))
       return <MobileDashboard />
     else
       return <Dashboard case={()=>{}} info={this.state.info} listUserCanAddTask={this.state.listUserCanAddTask}/>
   }
   management = () =>{
-    if(isMobile)
+    if(isMobile && (InfoGen.email=="autsakorn.t@firstlogic.co.th" || InfoGen.email=="detomas_25@hotmail.com"))
       return <MobileManagement />
     else
       return <Management case={()=>{}} info={this.state.info} listUserCanAddTask={this.state.listUserCanAddTask}/>
@@ -81,25 +91,43 @@ class routes extends React.Component {
   profile = () => (
     <Profile info={this.state.info} />
   )
+  standby = () => (
+    <Standby7x24 info={this.state.info} />
+  )
+  ForIE = () => (
+    <div>Browser is not support<br/>Support Chrome or Firefox</div>
+  )
   app = () => {
     return <App info={this.state.info} />
   }
   router = () => {
-    if(isMobile){
+    if(isIE){
+      return this.routerIE();
+    }else if(isMobile && (InfoGen.email=="autsakorn.t@firstlogic.co.th" || InfoGen.email=="detomas_25@hotmail.com")){
       return this.routerMobile();
     }else {
       return this.routerWeb();
     }
   }
+  routerIE = () => {
+    return <Route>
+        <Route path="login" component={LoginPage}/>
+        <Route path="/" component={App}>
+          <IndexRoute component={this.ForIE}/>
+          <Route path="*" component={NotFoundPage}/>
+        </Route>
+    </Route>
+  }
   routerWeb = () => {
     return <Route>
       <Route path="login" component={LoginPage}/>
       <Route path="/" component={App}>
-        <IndexRoute component={this.dashboard}/>
+        <IndexRoute component={this.management}/>
         <Route path="dashboard" component={this.dashboard}/>
         <Route path="management" component={this.management}/>
         <Route path="calendar" component={this.calendar}/>
         <Route path="schedule" component={this.schedule} />
+        <Route path="standby" component={this.standby} />
         <Route path="profile" component={this.profile} />
         <Route path="map" component={this.map} />
         <Route path="form" component={FormPage}/>
@@ -112,11 +140,12 @@ class routes extends React.Component {
     return <Route>
       <Route path="login" component={LoginPage}/>
       <Route path="/" component={AppMobile}>
-        <IndexRoute component={this.dashboard}/>
+        <IndexRoute component={this.management}/>
         <Route path="dashboard" component={this.dashboard}/>
         <Route path="management" component={this.management}/>
         <Route path="calendar" component={this.calendar}/>
         <Route path="schedule" component={this.schedule} />
+        <Route path="standby" component={this.standby} />
         <Route path="profile" component={this.profile} />
         <Route path="map" component={this.map} />
         <Route path="form" component={FormPage}/>

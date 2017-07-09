@@ -98,7 +98,7 @@ class TicketDetail extends Component {
       ticket_sid:this.state.ticket_sid
     }
     jPost(Url.ws_ticketDetail, data).then((res)=>{
-      that.setState({data:res.data,tasks:res.tasks,initialTask:true});
+      that.setState({data:res.data,tasks:res.tasks,initialTask:true,projectContact:res.contactPeople});
     });
   }
   loadTasks = () => {
@@ -356,7 +356,11 @@ class TicketDetail extends Component {
             value={slaRow} />
         </div>
       }else{
-        btnActivitySlaRemedy = <div style={{display:'flex'}}><div style={{flex:1}}><RaisedButton onTouchTap={()=>{this.setState({openFormSlaRemedy:true,toSlaStatus:8, toSlaTxt:'Worklog'});}} style={styles.button}>Worklog</RaisedButton></div><div style={{flex:1}}></div></div>
+        btnActivitySlaRemedy = <div style={{display:'flex'}}>
+          <div style={{flex:1}}>
+            <RaisedButton onTouchTap={()=>{this.setState({openFormSlaRemedy:true,toSlaStatus:8, toSlaTxt:'Worklog'});}} style={styles.button}>Worklog</RaisedButton></div>
+            <div style={{flex:1}}></div>
+          </div>
         SLA = <TicketControlStatus loadNew={this.loadTicket} ticket_sid={this.props.ticket_sid} data={this.state.data} />;
       }
       // END SLA
@@ -368,10 +372,11 @@ class TicketDetail extends Component {
         data.worklog.forEach((item,i)=>{
             worklog.push(
               <div key={i} style={{display:'flex', marginBottom:10, borderBottom:'1px solid #ffffff'}}>
-                <div style={{width:'60px'}}><Avatar src={item.create_by_pic} /></div>
+
                 <div style={{flex:1}}>
                   {item.worklog}<br/>
-                  <small style={{fontSize:'70%'}}>Created {item.create_datetime}</small>
+                  <small style={{}}>Created {((item.created_name)?item.created_name:item.create_by)}</small><br/>
+                  <small style={{}}>{item.create_datetime}</small>
                 </div>
               </div>
             );
@@ -458,7 +463,7 @@ class TicketDetail extends Component {
                         <SosStatus data={data} info={this.props.info} ticket_sid={this.props.ticket_sid} loadNew={this.loadTicket} />:
                         control_status_ticket
                       }
-                      {addOraclePart}
+
 
                       <div style={{marginTop:25}}>
                           <PresentDataHeader label={
@@ -528,6 +533,8 @@ class TicketDetail extends Component {
                       </div>
 
                       {sosCiInformation}
+
+                      <div style={{marginTop:25}}>{addOraclePart}</div>
                     </div>
                   </div>
 

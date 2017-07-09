@@ -119,7 +119,7 @@ class Management extends Component {
       openTicketDrawer:false,
       types:types,
       loading:true,
-      dataLimit:20,
+      dataLimit:10000,
       dataStart:0
     }
   }
@@ -158,15 +158,29 @@ class Management extends Component {
     }
     var that = this;
     if(url){
-      jPost(url, data).then(function(res){
-        // console.log(res);
-        // console.log(res.data);
-        // console.log(res.type);
-        // console.log(names);
-        names = res.type;
-        that.setState({data:res.data, type:res.type, loading:false});
-      });
+        this.processLoadData(url,data).then((res)=>{
+          names = res.type;
+          that.setState({data:res.data, type:res.type, loading:false});
+        });
     }
+  }
+  processLoadData = (url,data) => {
+    var that = this;
+    return new Promise((resolve,reject)=>{
+        // var dataAll = [];
+        that.callDataFromService(url,data).then((res)=>{
+          resolve(res);
+        });
+    })
+  }
+
+
+  callDataFromService = (url, data) => {
+    return new Promise((resolve,reject)=>{
+      jPost(url, data).then(function(res){
+        resolve(res);
+      });
+    });
   }
   select = (index, indexType) => {
     this.setState({selectedIndex:index, data:[], indexType:indexType});
@@ -181,7 +195,13 @@ class Management extends Component {
   newProject = () => {
     // console.log(1234);
     if(this.state.indexType===0){
-      this.setState({createProject:<ProjectCreate onCloseProjectCreate={()=>{this.setState({createProjectOpen:false,createProject:<div />})}} info={this.props.info} />, createProjectOpen:!this.state.createProjectOpen});
+      this.setState({createProject:<ProjectCreate onCloseProjectCreate={
+        ()=>{
+          this.setState({createProjectOpen:false,createProject:<div />});
+          this.callData(this.state.indexType, this.state.status,this.state.types, this.state.selectedIndex)
+        }
+      }
+      info={this.props.info} />, createProjectOpen:!this.state.createProjectOpen});
     }
   }
   handleOpenTicketDrawer = (item) => {
@@ -306,7 +326,7 @@ class Management extends Component {
               }
             </BottomNavigation>
         </Paper>
-        <div style={{padding:20, fontSize:'10px'}} >
+        <div style={{padding:20, fontSize:'12px'}} >
           {(this.state.loading)?<div style={{textAlign:'center'}}><CircularProgress size={60} thickness={7} /></div>:
           <div>
             {((this.state.createOpen && this.state.indexType===1)?create:'')}
@@ -436,7 +456,7 @@ class Management extends Component {
                                 <ServiceReportDetail
                                   tasks_sid={row.original.sid}
                                   listUserCanAddTask={this.props.listUserCanAddTask}
-                                  socket={this.props.socket}
+                                  // socket={this.props.socket}
                                  />
                               </div>
                             )

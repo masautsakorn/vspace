@@ -57,7 +57,7 @@ class ServiceReportDialog extends Component {
   };
   handleOpenCreatingService = () => {
     this.props.loadNew();
-    this.setState({creatingService:!this.state.creatingService});
+    this.setState({creatingService:!this.state.creatingService, open:false});
   }
   handleClose = () => {
     this.setState({open: false});
@@ -242,7 +242,8 @@ class ServiceReportDialog extends Component {
     }else{
       if(this.state.editSid==null){
         btnCreateServiceReport =
-        <div><span className="btn two" key={-1} onTouchTap={this.handleOpenCreatingService}>Create New Service Report</span></div>;
+        <div style={{width:'100%',textAlign:'center',maxWidth:'200px'}}>
+          <div className="btn two" key={-1} onTouchTap={this.handleOpenCreatingService}>Create New Service Report</div></div>;
         // btnCreateServiceReport = (<Chip key={-1} onTouchTap={this.handleOpenCreatingService} style={styles.chip}>
         //   <Avatar color="#fff" icon={<ContentAdd />} />Create New Service Report</Chip>);
       }
@@ -257,8 +258,24 @@ class ServiceReportDialog extends Component {
           iconStatusService = <SocialSentimentNeutral/>
         }
         chipServiceReport.push(
-          <Chip style={{margin:2,overflow: 'auto',maxWidth: '270px'}} key={i}>
-          <Avatar icon={iconStatusService} />{propsServiceReport[i].subject_service_report}</Chip>
+          <div style={{overflow: 'auto'}} key={i}>
+            <div style={{background:'#ffffff',padding:15}} className="btn">
+                <div className="row" style={{width:'100%',marginLeft:0,marginRight:0}}>
+                    <div className="col-xs-12 col-sm-3 col-md-3 col-lg-3 col-md m-b-15" style={{textAlign:'left',marginBottom:0}}>
+                      #{i+1} {' '} {propsServiceReport[i].no_task}
+                    </div>
+                    <div className="col-xs-12 col-sm-3 col-md-3 col-lg-3 col-md m-b-15" style={{textAlign:'left',marginBottom:0}}>
+                      {propsServiceReport[i].subject_service_report}
+                    </div>
+                    <div className="col-xs-12 col-sm-3 col-md-3 col-lg-3 col-md m-b-15" style={{textAlign:'left',marginBottom:0}}>
+                      {propsServiceReport[i].appointment}
+                    </div>
+                    <div className="col-xs-12 col-sm-3 col-md-3 col-lg-3 col-md m-b-15" style={{textAlign:'left',marginBottom:0}}>
+                      {propsServiceReport[i].engineer_name}
+                    </div>
+                </div>
+            </div>
+          </div>
         );
 
         const items = [
@@ -284,8 +301,8 @@ class ServiceReportDialog extends Component {
                   onRequestDelete={() => this.handleRequestDeleteAssociate(item.engineer)}>
                   <div style={{display:'flex'}}>
                     <div style={{flex:1}}>{item.engineer_name}</div>
-                    <div style={{flex:1, marginLeft:15}}>
-                      <a className="link" onTouchTap={()=>this.toggleTaxiAssociate(parseInt(item.request_taxi),item.engineer)}>{((parseInt(item.request_taxi))?"เบิกค่าเดินทาง":"ไม่เบิกค่าเดินทาง")}</a>
+                    <div style={{flex:1, marginLeft:0}}>
+                      <div className="link" onTouchTap={()=>this.toggleTaxiAssociate(parseInt(item.request_taxi),item.engineer)}>{((parseInt(item.request_taxi))?"เบิกค่าเดินทาง":"ไม่เบิกค่าเดินทาง")}</div>
                     </div>
                   </div>
                 </Chip>
@@ -326,7 +343,7 @@ class ServiceReportDialog extends Component {
               </div>
 
               <div style={{color:'#000000', marginTop:30}}><span style={{color:lightBlack,marginRight:10}}>Appointment: </span>
-                <div style={{display:'flex'}}>
+                <div style={{display:'flex', flexDirection:'column'}}>
                     <div style={{flex:1}}>
                         <DatePicker
                           onChange={this.editAppointmentDate}
@@ -372,8 +389,8 @@ class ServiceReportDialog extends Component {
                 <Chip style={styles.chip}>
                   <div style={{color:'#000000',marginRight:10, display:'flex'}}>
                     <div style={{flex:1}}>{this.state.editData.engineer_name}</div>
-                    <div style={{flex:1, marginLeft:15}}>
-                      <a className="link" onTouchTap={()=>this.toggleTaxi(parseInt(this.state.editData.request_taxi))}>{(parseInt(this.state.editData.request_taxi)?"เบิกค่าเดินทาง":"ไม่เบิกค่าเดินทาง")}</a>
+                    <div style={{flex:1, marginLeft:0}}>
+                      <div className="link" onTouchTap={()=>this.toggleTaxi(parseInt(this.state.editData.request_taxi))}>{(parseInt(this.state.editData.request_taxi)?"เบิกค่าเดินทาง":"ไม่เบิกค่าเดินทาง")}</div>
                     </div>
                   </div>
                 </Chip>
@@ -413,21 +430,21 @@ class ServiceReportDialog extends Component {
         }else{
           var pdfElement;
           if(propsServiceReport[i].path_service_report){
-            pdfElement = <PresentData label={"PDF"} value={<a className="link" style={{fontStyle:'italic'}} target="new" href={END_POINT_PDF+propsServiceReport[i].path_service_report} >Service Report</a>} />
+            pdfElement = <PresentData label={"PDF"} value={<div className="link" style={{fontStyle:'italic'}} target="new" href={END_POINT_PDF+propsServiceReport[i].path_service_report} >Service Report</div>} />
           }else{
             pdfElement = <PresentData label={"PDF"} value={"-"} />
           }
           var asso = propsServiceReport[i].associate_engineer.map((item,i)=>{
               return <div style={{}} key={i}>{item.engineer_name}
-                      <a className="link" style={{marginLeft:15,fontStyle:'italic'}}>{(parseInt(item.request_taxi)?"เบิกค่าเดินทาง":"ไม่เบิกค่าเดินทาง")}</a>
+                      <div className="link" style={{marginLeft:0,fontStyle:'italic'}}>{(parseInt(item.request_taxi)?"เบิกค่าเดินทาง":"ไม่เบิกค่าเดินทาง")}</div>
                      </div>
           });
 
           var controlEditSr;
           if(propsServiceReport[i].can_edit==1 && propsServiceReport[i].create_by===InfoGen.email){
             controlEditSr = <div style={{display:'flex'}}>
-              <div style={{width:60,textAlign:'right'}}><a className="link" onTouchTap={()=>{this.setEditMode(propsServiceReport[i].sid, propsServiceReport[i])}}><EditorBorderColor style={{color:'blue',width:14,height:14}} title="Edit" /> แก้ไข</a></div>
-              <div style={{flex:1}}></div>
+              <div style={{flex:1,textAlign:'right'}}><div className="link" onTouchTap={()=>{this.setEditMode(propsServiceReport[i].sid, propsServiceReport[i])}}><EditorBorderColor style={{color:'blue',width:14,height:14}} title="Edit" /> แก้ไข</div></div>
+
             </div>
           }else if(propsServiceReport[i].can_edit!=1){
             controlEditSr = <div style={{display:'flex'}}>
@@ -450,7 +467,7 @@ class ServiceReportDialog extends Component {
 
           var engineer = <div>
             {propsServiceReport[i].engineer_name}
-            <a className="link" style={{marginLeft:15,fontStyle:'italic'}}>{((parseInt(propsServiceReport[i].request_taxi))?"เบิกค่าเดินทาง":"ไม่เบิกค่าเดินทาง")}</a>
+            <div className="link" style={{marginLeft:0,fontStyle:'italic'}}>{((parseInt(propsServiceReport[i].request_taxi))?"เบิกค่าเดินทาง":"ไม่เบิกค่าเดินทาง")}</div>
           </div>
           var secondaryText =
           <div style={{color:'#000000',marginBottom:0}}>
@@ -483,16 +500,16 @@ class ServiceReportDialog extends Component {
 
     var label;
     if(!this.state.open){
-      label = <div style={{textAlign:'right'}}>
-      <div style={{display:'flex',flexWrap:'wrap',float:'left'}}>{chipServiceReport}</div><div style={{clear:'both'}}></div></div>;
+      label = <div style={{textAlign:'left'}}>
+        <div style={{
+          // display:'flex',flexWrap:'wrap',float:'left'
+        }}>{chipServiceReport}</div><div style={{clear:'both'}}></div>
+      </div>;
     }else{
       label = serviceReport;
     }
     var viewAppointment =
-      <div style={{color:'#ffffff',marginLeft:0, display:'flex', flexDirection:'row'}}>
-        <div><a className="link" style={{cursor:'pointer'}} onTouchTap={()=>{this.setState({open:!this.state.open}) }} >
-        ({this.props.serviceReport.length})
-        View Detail</a></div>
+      <div style={{color:'#ffffff',marginLeft:0, display:'flex', flexDirection:'column'}}>
         {btnCreateServiceReport}
       </div>
 
@@ -505,11 +522,13 @@ class ServiceReportDialog extends Component {
                   onCloseDialog={this.handleOpenCreatingService}
                   onCreatedService={this.handleCreatedService}
                   onStatusCreating={this.handleStatusCreating}
-                  ticket_sid={this.props.ticket_sid}
+                  ticket_sid={this.props.ticket.sid}
                   projectContact={this.props.projectContact}
                   serviceReport={this.props.serviceReport}
                   listUserCanAddTask={this.props.listUserCanAddTask} />
           </div>
+    }else{
+      createAppointment = null;
     }
 
     // <CardHeader>
@@ -523,12 +542,22 @@ class ServiceReportDialog extends Component {
     //     <div style={{maxHeight:450,overflow:'scroll'}}>{label}</div>
     //   </Content>
     // </CardContent>
+    label = <div>
+      <div style={{marginBottom:5,width:'100%',textAlign:'center',maxWidth:'200px'}}>
+        <div className="btn four" style={{cursor:'pointer'}} onTouchTap={()=>{this.setState({open:!this.state.open}) }} >
+        ({this.props.serviceReport.length})
+        View Detail</div>
+      </div>
+      {label}
+    </div>
     return (
       <div >
         <div>
             <PresentData label={"Service Report"} value={viewAppointment}  />
-            <PresentDataHeader label={label} value={label}  />
-            <PresentDataHeader label={createAppointment} value={createAppointment} />
+            {(propsServiceReport.length>0)?<PresentDataHeader label={
+              label
+            } value={label}  />:null}
+            {(createAppointment)?<PresentDataHeader label={createAppointment} value={createAppointment} />:null}
         </div>
         <br/>
         <Snackbar

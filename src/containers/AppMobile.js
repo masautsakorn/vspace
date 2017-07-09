@@ -1,13 +1,11 @@
 import React,{Component} from 'react';
-// import {Toolbar,ToolbarButton,Icon,Splitter,SplitterSide,List,Page,ListItem,SplitterContent} from 'react-onsenui';
-
+import {Toolbar,ToolbarButton,Icon,Splitter,SplitterSide,List,Page,ListItem,SplitterContent} from 'react-onsenui';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import ThemeDefault from '../theme-default';
 
-
-import 'onsenui/css/onsenui.css';
-import 'onsenui/css/onsen-css-components.css';
+// import 'onsenui/css/onsenui.css';
+// import 'onsenui/css/onsen-css-components.css';
 // class MobileManagement extends Component{
 //   constructor(props){
 //     super(props);

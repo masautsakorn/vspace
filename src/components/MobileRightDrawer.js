@@ -11,13 +11,13 @@ export default class MobileRightDrawer extends Component {
     super(props);
     var info = InfoGen.info;
     console.log(info);
-    if(info){
-      console.log('use info');
-      this.state = {isOpen:this.props.isOpen,menus:info.menusV4,menusTab:info.menusTab,info:info}
-    } else {
+    // if(info){
+    //   console.log('use info');
+    //   this.state = {isOpen:this.props.isOpen,menus:info.menusV4,menusTab:info.menusTab,info:info}
+    // } else {
       this.state = {isOpen:this.props.isOpen,menus:[],menusTab:[],info:{}}
       this.loadHeader();
-    }
+    // }
   }
   componentDidMount(){
     this.props.menusTab(this.state.menusTab,this.state.info);

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 // import ReactDOM from 'react-dom';
-import ServiceReportDialog from '../projectplan/ServiceReportDialog';
+// import ServiceReportDialog from '../projectplan/ServiceReportDialog';
 import Url from '../../config/url';
-import get from '../../config/Get';
+// import get from '../../config/Get';
 import Put from '../../config/Put';
 import InfoGen from '../../config/InfoGen';
 import FlatButton from 'material-ui/FlatButton';
@@ -12,31 +12,31 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 // import DropDownMenu from 'material-ui/DropDownMenu';
 // import MenuItem from 'material-ui/MenuItem';
-import Popover from 'material-ui/Popover';
-import Menu from 'material-ui/Menu';
-import Avatar from 'material-ui/Avatar';
-import {grey400, darkBlack, lightBlack} from 'material-ui/styles/colors';
-import Drawer from 'material-ui/Drawer';
-import IconButton from 'material-ui/IconButton';
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import IconMenu from 'material-ui/IconMenu';
-import {List, ListItem} from 'material-ui/List';
-import Divider from 'material-ui/Divider';
-import OwnerDialog from '../projectplan/OwnerDialog';
-import SocialPeople from 'material-ui/svg-icons/social/people';
+// import Popover from 'material-ui/Popover';
+// import Menu from 'material-ui/Menu';
+// import Avatar from 'material-ui/Avatar';
+// import { lightBlack} from 'material-ui/styles/colors';
+// import Drawer from 'material-ui/Drawer';
+// import IconButton from 'material-ui/IconButton';
+// import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+// import IconMenu from 'material-ui/IconMenu';
+// import {List, ListItem} from 'material-ui/List';
+// import Divider from 'material-ui/Divider';
+// import OwnerDialog from '../projectplan/OwnerDialog';
+// import SocialPeople from 'material-ui/svg-icons/social/people';
 // import {BottomNavigation, BottomNavigationItem} from 'material-ui/BottomNavigation';
-import IconLocationOn from 'material-ui/svg-icons/communication/location-on';
-import Checkbox from 'material-ui/Checkbox';
-import ContentClear from 'material-ui/svg-icons/content/clear';
-import TicketChecklist from '../ticket/TicketChecklist';
-import TicketControlStatus from '../ticket/TicketControlStatus';
+// import IconLocationOn from 'material-ui/svg-icons/communication/location-on';
+// import Checkbox from 'material-ui/Checkbox';
+// import ContentClear from 'material-ui/svg-icons/content/clear';
+// import TicketChecklist from '../ticket/TicketChecklist';
+// import TicketControlStatus from '../ticket/TicketControlStatus';
 
-import AppBar from 'material-ui/AppBar';
-import NavigationClose from 'material-ui/svg-icons/navigation/close';
+// import AppBar from 'material-ui/AppBar';
+// import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import ActionAssignment from 'material-ui/svg-icons/action/assignment';
 import Snackbar from 'material-ui/Snackbar';
 import { Columns,Column } from 're-bulma';
-import { Card,CardHeader,CardHeaderTitle,CardContent,Content, CardFooter,CardFooterItem } from 're-bulma';
+// import { Card,CardHeader,CardHeaderTitle,CardContent,Content, CardFooter,CardFooterItem } from 're-bulma';
 import DatePicker from 'material-ui/DatePicker';
 import TimePicker from 'material-ui/TimePicker';
 import moment from 'moment';
@@ -51,7 +51,7 @@ export default class TicketSlaRemedy extends Component {
 
     const pending_time = new Date();
     pending_time.setFullYear(pending_time.getFullYear());
-
+    console.log('TicketSlaRemedy',this.props);
     this.state = {worklog:'',
       minDate: minDate,
       autoOk: false,
@@ -108,6 +108,7 @@ export default class TicketSlaRemedy extends Component {
           if(!res.error){
             that.setState({messageSnackbar:'Sent', openSnackbar:true});
             that.props.cancelSlaRemedy();
+            that.props.loadTicket();
           }else{
 
           }
