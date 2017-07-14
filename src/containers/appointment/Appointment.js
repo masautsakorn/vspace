@@ -291,8 +291,8 @@ export default class Appointment extends Component {
     formData.append("task_status", tmp.status_from_log);
     formData.append("taxi_fare",this.state.taxi_fare);
     formData.append("taxi_fare_stang",'0');
-    formData.append("lat",0);
-    formData.append("lng",0);
+    formData.append("lat",InfoGen.lat);
+    formData.append("lng",InfoGen.lng);
     formData.append("signature",this.state.trimmedDataURL);
     Put(Url.checkpoint, formData).then(function(res){
       console.log(res);

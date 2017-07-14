@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {Page,Navigator,BackButton,Toolbar,SearchInput
+import {Page,Navigator,BackButton,Toolbar,SearchInput,List,ListItem
   // ,Tab, Tabbar
 } from 'react-onsenui';
 import {ToolbarButton,Icon,Fab
@@ -41,7 +41,11 @@ import RenderCase from './RenderCase';
 import RenderSr from './RenderSr';
 import RenderProject from './RenderProject';
 
+
 import ProjectCreate from '../project/ProjectCreate2';
+
+import ImageMenu from 'material-ui/svg-icons/image/dehaze';
+import ChevronLeft from 'material-ui/svg-icons/navigation/chevron-left';
 
 class MobileDashboard extends Component{
   constructor(props){
@@ -69,7 +73,7 @@ class MainPage extends Component {
     if(localStorage.getItem("nameType")){
       nameType = localStorage.getItem("nameType");
     }
-    var selectedIndex = 0;
+    var selectedIndex = 1;
     if(localStorage.getItem("selectedIndex")){
       selectedIndex = parseInt(localStorage.getItem("selectedIndex"));
     }
@@ -143,6 +147,8 @@ class MainPage extends Component {
     var {navigator} = this.props;
 
     var content;
+    // content = <div style={{padding:10}}><SearchInput onKeyUp={(e)=>this.searchInput(e.target.value)} style={{width:'100%'}} placeholder='Search' /></div>
+    // return content;
     if(indexType=="0"){
       content = (<MTabs tabItemContainerStyle={{background:'#ffffff'}} tabTemplateStyle={{background:'#fafafa'}}
         value={this.state.tabValue}
@@ -237,7 +243,9 @@ class MainPage extends Component {
       return <RenderSr data={data} navigator={navigator}  />
     else if(indexType==0)
       return <div><RenderProject data={data} navigator={navigator} />
-        <Fab onTouchTap={()=>{navigator.pushPage({component:PageProjectCreate,key:'PageProjectCreate'}) }} style={{bottom:60}} position='bottom right'>+</Fab>
+        {
+          <Fab onTouchTap={()=>{navigator.pushPage({component:PageProjectCreate,key:'PageProjectCreate'}) }} style={{bottom:60}} position='bottom right'>+</Fab>
+        }
         </div>
   }
   renderContent = () => {
@@ -247,11 +255,13 @@ class MainPage extends Component {
 
     return (<div style={{position:'absolute',left:0,right:0,bottom:0, top:0}}>
       <div style={{position:'relative', height:'100%',display:'flex',flexDirection:'column' }}>
-        <div style={{position:'absolute',top:0, height:56, width:'100%'}}>
+        <div style={{position:'relative',height:110,  width:'100%'}}>
           {this.renderTabTop()}
         </div>
-        <div style={{overflow:'auto',flex:1, zIndex:0, marginTop:96}}>
-          <div onTouchTap={()=>{}} style={{marginBottom:56, color:'#000'}}>
+        <div style={{overflow:'auto',flex:1, zIndex:0}}>
+          <div onTouchTap={()=>{}} style={{
+            // marginBottom:56,
+            color:'#000000'}}>
 
             {//<div style={{padding:20}} onTouchTap={()=>{navigator.pushPage({component:PageTwo,key:'PageTwo'}) }}>Go To Next Page</div>
             }
@@ -260,7 +270,7 @@ class MainPage extends Component {
             }
           </div>
         </div>
-        <div style={{position:'absolute',bottom:0, height:56, width:'100%'}}>
+        <div style={{position:'relative',height:56, width:'100%'}}>
           <BottomNavigation selectedIndex={this.state.selectedIndex} >
             {
               this.state.menusTab.map((item,i)=>{
@@ -291,7 +301,7 @@ class MainPage extends Component {
     var {nameType} = this.state;
     var title = nameType;
 
-    return <Page key={"PageOne"} renderToolbar={()=>
+    return <Page style={{backgroundColor:'#ffffff'}} key={"PageOne"} renderToolbar={()=>
       <NavApp show={this.show} backButton={false} title={title} navigator={navigator} /> } >
       <MobileRightDrawer menusTab={this.menusTab} hide={this.hide} isOpen={this.state.isOpen} content={this.renderContent()} />
 
@@ -342,6 +352,25 @@ const PageThree = ({navigator}) => (
   </Page>
 )
 
+class MenuRight extends Component {
+  constructor(props){
+    super(props);
+
+  }
+  render(){
+    return <Page>
+      <div style={{padding:5}}>vSpace</div>
+      <List
+        dataSource={this.state.menus}
+        renderRow={(item,i) => (
+          <Link key={i} to={item.link}><ListItem onClick={this.hide} tappable>{item.name}</ListItem></Link>
+        )}
+      >
+        <ListItem onClick={this.hide} onTouchTap={()=>this.signOut()} tappable>Logout</ListItem>
+      </List>
+    </Page>
+  }
+}
 
 class NavApp extends Component{
   constructor(props){
@@ -353,13 +382,13 @@ class NavApp extends Component{
     var style = {backgroundColor:'#00bcd4'};
     return <Toolbar style={style}>
       <div className='left'>
-        {backButton ? <BackButton style={{color:'#ffffff'}} onClick={() => navigator.popPage()}>Back</BackButton> : null}
+        {backButton ? <div style={{color:'#ffffff'}}><ChevronLeft style={{color:'#ffffff', marginTop:10}} onClick={() => navigator.popPage()} /></div>: null}
       </div>
       <div style={{color:'#ffffff'}} className='center'>{title}</div>
       <div className='right' >
         {!backButton?
-          <ToolbarButton onClick={()=>this.props.show()} style={{color:'#ffffff'}}>
-            <Icon icon='ion-navicon, material:md-menu' />
+          <ToolbarButton onClick={()=>this.props.show()} style={{color:'#ffffff',verticalAlign:'sub'}}>
+            <ImageMenu color="#ffffff" />
           </ToolbarButton>: null
         }
       </div>

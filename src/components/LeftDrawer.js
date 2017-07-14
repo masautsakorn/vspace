@@ -71,12 +71,12 @@ const LeftDrawer = (props) => {
 
                 />
               }else{
-                return <MenuItem
+                return <MenuItem onTouchTap={()=>props.navDrawerClose()}
                   key={index}
                   style={styles.menuItem}
                   primaryText={menu.name}
                   // leftIcon={menu.icon}
-                  containerElement={<Link onTouchTap={()=>props.navDrawerClose()} to={menu.link}/>}
+                  containerElement={<Link to={menu.link}/>}
                 />
               }
             }

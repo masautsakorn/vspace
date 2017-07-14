@@ -58,7 +58,7 @@ class ServiceReportCreate extends Component {
       value24: appointment_time, value12: null, openSelectStaff:false,
       staff:[],
       subject:"",detail:"",service_type:"1",service_type_lable:"Onsite",appointment_date:appointment_date,expect_duration:"8",
-      end_user_name:"",end_user_email:"",end_user_mobile:"",end_user_phone:"",end_user_company:"",openServiceType:false,
+      end_user_name:"",end_user_email:"",end_user_mobile:"",end_user_phone:"",end_user_company:"",address:"",openServiceType:false,
       openSnackbar:false,
       messageSnackbar:'',
       creatingService:true
@@ -170,7 +170,8 @@ class ServiceReportCreate extends Component {
         minutes: "0"
       },
       engineer: engineer,
-      staff:this.state.staff
+      staff:this.state.staff,
+      address:this.state.address
     }
     // console.log(dataCreateService);
     var formData = new FormData();
@@ -399,18 +400,20 @@ class ServiceReportCreate extends Component {
               <StepLabel>SUBJECT</StepLabel>
               <StepContent>
                   <GridList
-                      cellHeight={180}
-                      cols={1} style={{height:180}}
+                      cellHeight={260}
+                      cols={1} style={{height:260}} style={{overflow:'auto'}}
                     >
                     <div>
                         <div><TextField hintText="Subject" onChange={this.handleSubject} style={{width:"90%"}} floatingLabelText="Subject"/></div>
-                        <SelectField
+                        <div><TextField multiLine={true} style={{width:'90%'}} rows={2} hintText="เช่น 202 อาคาร CDG ..." onChange={(e)=>this.setState({address:e.target.value})} floatingLabelText="Address" /></div>
+                        <div><SelectField style={{width:'90%'}}
                           value={this.state.service_type}
                           onChange={this.handleChangeServiceType}
                           floatingLabelText="Service Type"
                         >
                           {items}
                         </SelectField>
+                      </div>
                     </div>
 
                   </GridList>

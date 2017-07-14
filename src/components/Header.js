@@ -8,7 +8,7 @@ import Menu from 'material-ui/svg-icons/navigation/menu';
 import ViewModule from 'material-ui/svg-icons/action/view-module';
 import {white} from 'material-ui/styles/colors';
 import SearchBox from './SearchBox';
-
+import {Link} from 'react-router';
 class Header extends React.Component {
   signOut = () => {
     localStorage.removeItem("case_token");
@@ -67,7 +67,7 @@ class Header extends React.Component {
                             targetOrigin={{horizontal: 'right', vertical: 'top'}}
                             anchorOrigin={{horizontal: 'right', vertical: 'top'}}
                   >
-                    <MenuItem onTouchTap={()=>window.location="/profile"} primaryText="Profile"/>
+                    <Link to="/profile"><MenuItem  primaryText="Profile"/></Link>
                     <MenuItem onTouchTap={()=>this.signOut()} primaryText="Sign out"/>
                   </IconMenu>
                 </div>

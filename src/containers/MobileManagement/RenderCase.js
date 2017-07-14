@@ -10,6 +10,8 @@ import ServiceReportDialog from '../projectplan/ServiceReportDialog2';
 import TicketContactUser from '../ticket/TicketContactUser';
 import TicketStatus from '../ticket/TicketStatus';
 
+import ChevronLeft from 'material-ui/svg-icons/navigation/chevron-left';
+
 import InfoGen from '../../config/InfoGen';
 class RenderCase extends Component {
   constructor(props){
@@ -40,16 +42,16 @@ class RenderCase extends Component {
           <div>{row.subject}</div>
 
           <div style={{display:'flex',width:'100%'}}>
-            <div style={{flex:1}}>Status </div>
-            <div style={{flex:1,textAlign:'right'}}>{row.status_label}</div>
+            <div style={{flex:1}}><small>Status </small></div>
+            <div style={{flex:1,textAlign:'right'}}><small>{row.status_label}</small></div>
           </div>
           <div style={{display:'flex',width:'100%'}}>
-            <div style={{flex:1}}>Owner </div>
-            <div style={{flex:1,textAlign:'right'}}>{row.owner_thainame}</div>
+            <div style={{flex:1}}><small>Owner </small></div>
+            <div style={{flex:1,textAlign:'right'}}><small>{row.owner_thainame}</small></div>
           </div>
           <div style={{display:'flex',width:'100%'}}>
-            <div style={{flex:3}}>Created {row.create_by_name}</div>
-            <div style={{flex:2,textAlign:'right'}}>{row.create_datetime}</div>
+            <div style={{flex:3}}><small>Created {row.create_by_name}</small></div>
+            <div style={{flex:2,textAlign:'right'}}><small>{row.create_datetime}</small></div>
           </div>
         </div>
       </ListItem>
@@ -95,7 +97,7 @@ class PageCaseDetial extends Component{
       var that = this;
       LoadCaseDetail(this.state.sid).then((res)=>{
         // console.log(res);
-        that.setState({data:res.data,tasks:res.tasks});
+        that.setState({data:res.data,tasks:res.tasks,projectContact:res.contactPeople});
       });
     }
     loadTicket = () => {
@@ -165,7 +167,7 @@ class NavApp extends Component{
     var style = {backgroundColor:'#00bcd4'};
     return <Toolbar style={style}>
       <div className='left'>
-        {backButton ? <BackButton style={{color:'#ffffff'}} onClick={() => navigator.popPage()}>Back</BackButton> : null}
+        {backButton ? <div style={{color:'#ffffff'}}><ChevronLeft style={{color:'#ffffff', marginTop:10}} onClick={() => navigator.popPage()} /></div>: null}
       </div>
       <div style={{color:'#ffffff'}} className='center'>{title}</div>
       <div className='right' >

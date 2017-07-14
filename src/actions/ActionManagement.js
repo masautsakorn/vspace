@@ -2,7 +2,7 @@ import Url from '../config/url';
 import jPost from '../config/jPost';
 import InfoGen from '../config/InfoGen';
 
-export var LoadMain = (indexType,status, type,search,selectedIndex,dataStart,dataLimit) => {
+export var LoadMain = (indexType,status, type,search,selectedIndex,dataStart,dataLimit,filter='') => {
   return new Promise((resolve,reject)=>{
     var url;
     if(indexType===0){
@@ -13,6 +13,8 @@ export var LoadMain = (indexType,status, type,search,selectedIndex,dataStart,dat
       url = Url.ws_appointment;
     }else if(indexType==4){
       url = Url.inventory;
+    }else if(indexType==3){
+      url = Url.notification;
     }
     var data = {
         token:InfoGen.token,
@@ -22,6 +24,7 @@ export var LoadMain = (indexType,status, type,search,selectedIndex,dataStart,dat
         search:search,
         dataStart:dataStart,
         dataLimit:dataLimit,
+        filter:filter
     };
     if(url){
       jPost(url, data).then(function(res){

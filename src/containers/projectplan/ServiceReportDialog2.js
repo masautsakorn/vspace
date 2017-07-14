@@ -48,7 +48,9 @@ class ServiceReportDialog extends Component {
       open: false,staff:this.props.listUserCanAddTask,
       serviceReport:this.props.serviceReport,
       projectContact:this.props.projectContact,
-      creatingService:false,openSnackbar:false,messageSnackbar:'',
+      creatingService:false,
+      openSnackbar:false,
+      messageSnackbar:'',
       editMode:false,editSid:null,editData:{}
     };
   }
@@ -430,7 +432,7 @@ class ServiceReportDialog extends Component {
         }else{
           var pdfElement;
           if(propsServiceReport[i].path_service_report){
-            pdfElement = <PresentData label={"PDF"} value={<div className="link" style={{fontStyle:'italic'}} target="new" href={END_POINT_PDF+propsServiceReport[i].path_service_report} >Service Report</div>} />
+            pdfElement = <PresentData label={"PDF"} value={<a target="new" href={END_POINT_PDF+propsServiceReport[i].path_service_report}><div className="link" style={{fontStyle:'italic'}}  >Service Report</div></a> } />
           }else{
             pdfElement = <PresentData label={"PDF"} value={"-"} />
           }

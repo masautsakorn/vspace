@@ -128,17 +128,27 @@ export default class TicketStatus extends Component {
     var worklog = [];
     console.log('worklog',data.worklog);
     if(data.worklog){
-      data.worklog.forEach((item,i)=>{
-          worklog.push(
-            <div key={i} style={{display:'flex', marginBottom:10, borderBottom:'1px solid #ffffff'}}>
-              <div style={{flex:1,color:'#ffffff', padding:10}}>
-                {item.worklog}<br/>
-                <small style={{}}>Created {((item.created_name)?item.created_name:item.create_by)}</small><br/>
-                <small style={{}}>{item.create_datetime}</small>
+      if(data.worklog.length>0){
+        data.worklog.forEach((item,i)=>{
+            worklog.push(
+              <div key={i} style={{display:'flex', marginBottom:10, borderBottom:'1px solid #ffffff'}}>
+                <div style={{flex:1,color:'#ffffff', padding:10}}>
+                  {item.worklog}<br/>
+                  <small style={{}}>Created {((item.created_name)?item.created_name:item.create_by)}</small><br/>
+                  <small style={{}}>{item.create_datetime}</small>
+                </div>
               </div>
+            );
+        });
+      }else{
+        worklog.push(
+          <div key={0} style={{display:'flex', marginBottom:10, borderBottom:'1px solid #ffffff'}}>
+            <div style={{flex:1,color:'#ffffff', padding:10}}>
+              {"No Data"}<br/>
             </div>
-          );
-      });
+          </div>
+        );
+      }
     }
 
     var contentSlaRemedy = <div>

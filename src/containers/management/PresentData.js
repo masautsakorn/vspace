@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import InfoGen from '../../config/InfoGen';
 export class PresentDataHeader extends Component {
     render(){
       return(
@@ -182,7 +183,9 @@ var styles = {
     textAlign:'left',
   },
   label:{
-    padding:10, backgroundColor:'rgb(236, 240, 241)', color:'#000000',width:'100%',borderBottom:'1px solid #fcfcfc', height:'100%',
+    padding:10,
+    backgroundColor:(InfoGen.isMobile)?'initial':'rgb(236, 240, 241)',
+    color:'#000000',width:'100%',borderBottom:'1px solid #fcfcfc', height:'100%',
     boxSizing: 'border-box'
   },
   value:{

@@ -3,7 +3,12 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
-
+* {
+  -webkit-user-select: initial;
+  -moz-user-select: initial;
+  -ms-user-select: initial;
+  user-select: initial;
+}
 html {
   font-family: 'Roboto', sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -68,7 +73,10 @@ a:hover {
 ::-webkit-scrollbar-corner {
     background: transparent;
 }*/
-
+.pageBase {
+  padding: 30px;
+  background-color: #ffffff
+}
 a {color: initial; text-decoration: none !important;}
 .sigCanvas {
   border: 1px solid #eaeaea;
@@ -235,4 +243,12 @@ a {color: initial; text-decoration: none !important;}
 }
 .textFillColorWhite{
   -webkit-text-fill-color:'#ffffff';
+}
+.toolbar__title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.list-item {
+  border-bottom: 1px solid #f0f0f0;
 }

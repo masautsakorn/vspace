@@ -22,6 +22,11 @@ import { Column,Columns,Card,Content } from 're-bulma';
 import OwnerDialog from '../projectplan/OwnerDialog2';
 import SocialPeople from 'material-ui/svg-icons/social/people';
 import Avatar from 'material-ui/Avatar';
+import moment from 'moment';
+
+
+
+
 class TicketCreateDrawer extends Component {
   constructor(props){
     super(props);
@@ -32,6 +37,7 @@ class TicketCreateDrawer extends Component {
       messageSnackbar:'',
       openFormContractInfoManual:false,
       contract_no_list:[],
+      contact_people:[],
       not_found_contract:false,
       subject:'',
       contract:'',
@@ -142,9 +148,9 @@ class TicketCreateDrawer extends Component {
         if(!res.error){
           console.log(res);
           if(res.data.length>0){
-            that.setState({not_found_contract:false,contract_no_list:res.data,openSnackbar:false,messageSnackbar:''});
+            that.setState({not_found_contract:false,contract_no_list:res.data,openSnackbar:false,messageSnackbar:'',contact_people:res.contactPeople});
           }else{
-            that.setState({not_found_contract:true,contract_no_list:res.data,openSnackbar:false,messageSnackbar:''});
+            that.setState({not_found_contract:true,contract_no_list:res.data,openSnackbar:false,messageSnackbar:'',contact_people:res.contactPeople});
           }
         }
       });
@@ -268,6 +274,7 @@ class TicketCreateDrawer extends Component {
     var style = {
       padding:10
     }
+    var {contact_people} = this.state;
     var formContractInfoManual;
     if(this.state.openFormContractInfoManual){
       formContractInfoManual =
@@ -299,16 +306,16 @@ class TicketCreateDrawer extends Component {
         contract_no_list = this.state.contract_no_list.map((item,k) => (
           <List key={k}>
             <ListItem onTouchTap={()=>{this.handleSelectProject(item.CONTRACT_NO,item.PROJECT_NAME, item.ENDUSER_NAME, item.ENDUSER_ADDRESS)}} data-id={item.CONTRACT_NO} data-projectname={item.PROJECT_NAME} data-endusername={item.ENDUSER_NAME} data-enduseraddress={item.ENDUSER_ADDRESS}
-              primaryText={item.CONTRACT_NO}
-              secondaryText={
-                <div>
-                  <div>{item.PROJECT_NAME}</div>
-                  <div style={{color: darkBlack}}>{item.ENDUSER_NAME}</div>
-                  <div>{item.ENDUSER_ADDRESS}</div>
-                </div>
-              }
-              secondaryTextLines={2}
-            />
+            >
+              <div>
+                <div>{item.CONTRACT_NO}</div>
+                <div>{item.PROJECT_NAME}</div>
+                <div style={{color: darkBlack}}><small>{item.ENDUSER_NAME}</small></div>
+                <div><small>{item.ENDUSER_ADDRESS}</small></div>
+                <div><small>MA Start Date {moment(item.MA_START_DATE).format('L')}</small></div>
+                <div><small>MA End Date {moment(item.MA_END_DATE).format('L')}</small></div>
+              </div>
+            </ListItem>
           </List>
         ));
     }
@@ -317,8 +324,8 @@ class TicketCreateDrawer extends Component {
     subjectInformation = <div>
       <TextField hintText="Subject" value={this.state.subject} onChange={this.subject} fullWidth={true}/>
 
-      <Columns>
-        <Column style={style}>
+      <div className="row">
+        <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-md m-b-15">
           <Subheader>TYPE</Subheader>
           <RadioButtonGroup name="caseType" defaultSelected="Incident" onChange={this.caseType}>
             <RadioButton
@@ -342,8 +349,8 @@ class TicketCreateDrawer extends Component {
               style={styles.radioButton}
             />
           </RadioButtonGroup>
-        </Column>
-        <Column style={style}>
+        </div>
+        <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-md m-b-15">
           <Subheader>Urgency</Subheader>
           <RadioButtonGroup name="Urgency" defaultSelected="Normal" onChange={this.urgency}>
             <RadioButton
@@ -362,8 +369,8 @@ class TicketCreateDrawer extends Component {
               style={styles.radioButton}
             />
           </RadioButtonGroup>
-        </Column>
-      </Columns>
+        </div>
+      </div>
     </div>
 
     var contractInformation;
@@ -378,13 +385,45 @@ class TicketCreateDrawer extends Component {
         onTouchTap={this.handleFindContract}
       />
       <div>{contract_no_list}</div>
+      {(this.state.contract_no_list.length>0)?<div>เลือก Contract </div>:null}
       <div>{formContractInfoManual}</div>
     </div>
 
     var requesterContactUser;
     requesterContactUser =
-    <Columns>
-      <Column style={style}>
+    <div className="row">
+      <div className="col-xs-12 col-sm-4 col-md-4 col-lg-4 col-md m-b-15">
+        <Card style={{margin:'10px', padding:'10px'}}>
+          <Content>
+            <Subheader>History Contact</Subheader>
+            <div style={{maxHeight:280, overflow:'auto'}}>
+              <List>
+              {
+                contact_people.map((item,i)=>{
+                  return <ListItem key={i} onTouchTap={
+                      ()=>this.setState({
+                        requester_name:item.name,
+                        requester_email:item.email,
+                        requester_mobile:item.mobile,
+                        requester_phone:item.phone,
+                        requester_company:item.company
+                      })
+                    }>
+                    <div>{item.name}</div>
+                    <div><small>{item.email}</small></div>
+                    <div><small>{item.mobile}</small></div>
+                    <div><small>{item.phone}</small></div>
+                    <div><small>{item.company}</small></div>
+                  </ListItem>
+                })
+              }
+              </List>
+            </div>
+            <div></div>
+          </Content>
+        </Card>
+      </div>
+      <div className="col-xs-12 col-sm-4 col-md-4 col-lg-4 col-md m-b-15">
         <div>
           <Card style={{margin:'10px', padding:'10px'}}>
             <Content>
@@ -397,8 +436,8 @@ class TicketCreateDrawer extends Component {
             </Content>
           </Card>
         </div>
-      </Column>
-      <Column style={style}>
+      </div>
+      <div className="col-xs-12 col-sm-4 col-md-4 col-lg-4 col-md m-b-15">
         <div color="isSuccess">
           <Card style={{margin:'10px', padding:'10px'}}>
             <Content>
@@ -412,10 +451,14 @@ class TicketCreateDrawer extends Component {
               </div>
             </Content>
           </Card>
-          <div style={{margin:'10px', padding:'10px'}}><RaisedButton label="Same Requester" onTouchTap={this.sameRequester} /></div>
+          <div style={{margin:'10px', padding:'10px'}}>
+            <div className="btn" style={{background:'#ffffff'}} onTouchTap={this.sameRequester} >เหมือน Requester</div>
+          </div>
         </div>
-      </Column>
-    </Columns>
+      </div>
+    </div>
+    {//END ROW
+    }
 
     var labelOwnerCase = (this.state.staff_thainame)?(this.state.staff_thainame):'';
     var avatar = (this.state.staff_thainame)?<div style={styles.relative}><Avatar src={this.state.staff_pic} /> <small style={{color:lightBlack,'position':'absolute','top':'5px','left':'45px'}}>{labelOwnerCase}</small></div>:'';
