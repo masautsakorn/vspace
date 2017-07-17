@@ -13,18 +13,26 @@ import ReactUploadFile from 'react-upload-file';
 // import List from 'material-ui/List/List';
 // import ListItem from 'material-ui/List/ListItem';
 import {grey400, darkBlack, lightBlack} from 'material-ui/styles/colors';
-import MediaQuery from 'react-responsive';
+
 import Url from '../config/url';
 import get from '../config/Get';
 import Put from '../config/Put';
 import InfoGen from '../config/InfoGen';
 import SignatureCanvas from 'react-signature-canvas';
 import Divider from 'material-ui/Divider';
+
+import Setting from './setting/Setting';
+
+import {Tabs, Tab} from 'material-ui/Tabs';
+
 class Profile extends Component {
 
   constructor(props){
     super(props);
-    this.state = {info:this.props.info,is_update:false,openSnackbar:false,file:'',imagePreviewUrl:'',file_picture_profile:'',trimmedDataURL:'',signing:false};
+    this.state = {info:this.props.info,
+      is_update:false,openSnackbar:false,file:'',imagePreviewUrl:'',file_picture_profile:'',trimmedDataURL:'',signing:false,
+      value:'a'
+    };
   }
   handleChangeFullname = (e) => {
     var tmp = this.state.info;
@@ -135,97 +143,36 @@ class Profile extends Component {
   handleChangePage = () => {
     this.props.onChangePage();
   }
-  render(){
-    var style = {
-        container: {
-        // position: 'absolute',
-        padding:'20px 0px',
-        margin:'auto',
-        left: 0,
-        right: 0,
-        top: '70px',
-        bottom: 0,
-        // backgroundColor:'#EDEFF0'
-      },
-      wrapper: {
-        // position: 'absolute',
-        // left: 0,
-        // right: 0,
-        // top: 0,
-        // bottom: 0,
-        width:'100%',
-        // maxWidth: '70%',
-        margin : 'auto',
-        textAlign:'center'
-        // overflow:'auto'
-      },
-      profile:{
-        width:'120px',
-        height:'initial',
-        cursor: 'pointer',
-        // marginRight:'20%',
-        marginTop :'10%'
-      },
-      profile_web:{
-        width:'220px',
-        height:'initial',
-        cursor: 'pointer',
-        // marginRight:'20%',
-        marginTop :'5%'
-      }
-
-    }
-
+  handleChange = (value) => {
+    this.setState({
+      value: value,
+    });
+  };
+  renderTextField = () => {
     var eleCompanyLogo;
     if(this.state.info.company_logo){
       eleCompanyLogo = <div><br/><img src={this.state.info.company_logo} style={{width:'160px'}} /></div>;
     }
-
-    var eleSignature;
-    if(this.state.info.path_signature && !this.state.signing){
-      var imgSignature;
-      if(this.state.info.path_signature_original){
-        imgSignature = <img src={this.state.info.path_signature} style={{width:'160px'}} />;
-      }
-
-      eleSignature =
-      <div>
-        <br/>{imgSignature}
-        <div style={{position:'relative'}}>
-          <div><RaisedButton onTouchTap={()=>this.setState({signing:true})} label="New Signature" style={{marginRight:'35px'}} /></div>
-        </div>
-      </div>;
-    }else{
-      eleSignature = <div>
-        <div style={{overflow:'hidden'}}><SignatureCanvas ref={(ref) => { this.sigPad = ref }} penColor='black' clearButton="true" style={{border:'1px solid #eaeaea'}} canvasProps={{width: 500, height: 200, className: 'sigCanvas'}} /></div>
-        <div>
-          <RaisedButton onTouchTap={this.trim} label="Update New Signature" style={{margin:4}} primary={true}  />
-          <RaisedButton onTouchTap={this.clear} secondary={true} label="Clear" style={{margin:4}}  />
-          <RaisedButton onTouchTap={()=>this.setState({signing:false})} style={{margin:4}} label="Cancel"  />
-        </div>
-      </div>
-    }
-    var textField =
-      <div>
+    return <div>
           <div>
-            <TextField
+            <TextField fullWidth={true}
               floatingLabelText="Email" disabled={true} value={this.state.info.email}
               floatingLabelFixed={true}
              />
          </div>
           <div>
-            <TextField floatingLabelText="Fullname" onChange={this.handleChangeFullname} value={this.state.info.name}
+            <TextField fullWidth={true} floatingLabelText="Fullname" onChange={this.handleChangeFullname} value={this.state.info.name}
             floatingLabelFixed={true}
            />
          </div>
          <div>
-           <TextField
+           <TextField fullWidth={true}
             floatingLabelText="Mobile" onChange={this.handleChangeMobile} value={this.state.info.mobile}
             floatingLabelFixed={true}
            />
         </div>
          <div>
-             <TextField
+             <TextField fullWidth={true}
               floatingLabelText="Company" onChange={this.handleChangeCompany} value={this.state.info.company}
               floatingLabelFixed={true}
              />
@@ -252,74 +199,140 @@ class Profile extends Component {
         />
         <br/><br/>
       </div>;
+  }
+  renderProfile = () => {
+    var style = {
+        container: {
+        // position: 'absolute',
+        padding:'20px 0px',
+        margin:'auto',
+        left: 0,
+        right: 0,
+        top: '70px',
+        bottom: 0,
+        // backgroundColor:'#EDEFF0'
+      },
+      wrapper: {
+        // position: 'absolute',
+        // left: 0,
+        // right: 0,
+        // top: 0,
+        // bottom: 0,
+        width:'100%',
+        // maxWidth: '70%',
+        margin : 'auto',
+        // textAlign:'center'
+        // overflow:'auto'
+      },
+      profile:{
+        width:'120px',
+        height:'initial',
+        cursor: 'pointer',
+        // marginRight:'20%',
+        marginTop :'10%'
+      },
+      profile_web:{
+        width:'220px',
+        height:'initial',
+        cursor: 'pointer',
+        // marginRight:'20%',
+        marginTop :'5%'
+      }
+
+    }
+
+    var eleSignature;
+    if(this.state.info.path_signature && !this.state.signing){
+      var imgSignature;
+      if(this.state.info.path_signature_original){
+        imgSignature = <img src={this.state.info.path_signature} style={{width:'160px'}} />;
+      }
+
+      eleSignature =
+      <div>
+        <br/>{imgSignature}
+        <div style={{position:'relative'}}>
+          <div><RaisedButton onTouchTap={()=>this.setState({signing:true})} label="New Signature" style={{marginRight:'35px'}} /></div>
+        </div>
+      </div>;
+    }else{
+      eleSignature = <div>
+        <div style={{overflow:'hidden'}}><SignatureCanvas ref={(ref) => { this.sigPad = ref }} penColor='black' clearButton="true" style={{border:'1px solid #eaeaea'}} canvasProps={{width: 500, height: 200, className: 'sigCanvas'}} /></div>
+        <div>
+          <RaisedButton onTouchTap={this.trim} label="Update New Signature" style={{margin:4}} primary={true}  />
+          <RaisedButton onTouchTap={this.clear} secondary={true} label="Clear" style={{margin:4}}  />
+          <RaisedButton onTouchTap={()=>this.setState({signing:false})} style={{margin:4}} label="Cancel"  />
+        </div>
+      </div>
+    }
+
     return(
       <div>
-          <div >
-
-            <MediaQuery query='(min-device-width: 769px)'>
                 <div id="vspace-container" style={style.container}>
                     <div className="vspace-wrapper" style={style.wrapper}>
                       <Card style={{border:'none',boxShadow:'none'}}>
-                            <div style={{float:'left', width:'40%', textAlign:'right',position:'relative'}}>
-                              <div style={{marginRight: '40px'}}><Avatar src={this.state.info.pic_full} style={style.profile_web}/></div>
-                              <div style={{'textAlign':'right',marginRight:'50px',position:'relative'}}>
+                        <div className="row" style={{margin:0}}>
+                            <div className="col-xs-12 col-sm-4 col-md-4 col-lg-4 col-md m-b-15">
+                              <div style={{textAlign:'center'}}><Avatar src={this.state.info.pic_full} style={style.profile_web}/></div>
+                              <div style={{textAlign:'center'}}>
                                 <RaisedButton label="New picture" style={{marginRight:'35px'}} />
                                 <TextField style={{zIndex:100,opacity:0, width:'200px',position:'absolute',top:0,right:0}} onChange={this.changePicture_profile} type="file" hintText="" name="picture_profile" />
                               </div>
                             </div>
-                            <div style={{float:'right', width:'60%', textAlign:'left'}}>
-                              {textField}
-
-                              <Divider />
-                              <div>
+                            <div className="col-xs-12 col-sm-4 col-md-4 col-lg-4 col-md m-b-15">
+                              <div style={{textAlign:'center'}}>{this.renderTextField()}</div>
+                            </div>
+                            <div className="col-xs-12 col-sm-4 col-md-4 col-lg-4 col-md m-b-15">
+                              <div style={{textAlign:'center'}}>
                                  <br/>
                                  <div><small style={{color:grey400}}>Signature</small></div>
                                  {eleSignature}
                                  <br/>
                               </div>
-
                            </div>
-
-
-
                            <div style={{clear:'both'}}></div>
-                        <br/>
+                        </div>
                       </Card>
                     </div>
                 </div>
-            </MediaQuery>
 
-            <MediaQuery query='(max-device-width: 768px)'>
-                  <div id="vspace-container" style={style.container}>
-                      <div className="vspace-wrapper" style={style.wrapper}>
-                        <Card>
-                              <div>
-                                <div><Avatar src={this.state.info.pic_full} style={style.profile}/></div>
-                                <div style={{'textAlign':'center', position:'relative'}}>
-                                  <RaisedButton label="New picture" style={style} />
-                                  <TextField style={{zIndex:100,opacity:0, position:'absolute',top:0,left:0}} onChange={this.changePicture_profile} type="file" hintText="" name="picture_profile" /></div>
-                              </div>
-                              <div >
-                                {textField}
-                             </div>
-
-                            <Divider />
-                             <div>
-                                <br/>
-                                <div><small style={{color:grey400}}>Signature</small></div>
-                                {eleSignature}
-                                <br/>
-                             </div>
-
-                             <div style={{clear:'both'}}></div>
-                          <br/>
-                        </Card>
-                      </div>
-                  </div>
-            </MediaQuery>
-          </div>
+                <Divider />
 
       </div>
+    )
+  }
+  renderSetting = () => {
+    if(InfoGen.email=="autsakorn.t@firstlogic.co.th"){
+      return <Setting value={this.state.value} />
+    }else{
+      return <div>Maintenance</div>
+    }
+  }
+  render(){
+    const styles = {
+      headline: {
+        fontSize: 24,
+        paddingTop: 16,
+        marginBottom: 12,
+        fontWeight: 400,
+      },
+    };
+    return(
+      <Tabs style={{margin:'-20px'}} tabItemContainerStyle={{background:'#ffffff'}} tabTemplateStyle={{background:'#fafafa'}}
+        value={this.state.value}
+        onChange={this.handleChange}
+      >
+        <Tab label="ทั่วไป" value="a" style={{color:'#666666'}}>
+          <div>
+            {this.renderProfile()}
+          </div>
+        </Tab>
+        <Tab label="ตั้งค่า" value="b" style={{color:'#666666'}}>
+          <div>
+            {this.renderSetting()}
+          </div>
+        </Tab>
+      </Tabs>
     )
   }
 }

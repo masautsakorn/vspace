@@ -358,7 +358,7 @@ class ProjectCreate extends Component {
                   <div className="col-xs-12 col-sm-4 col-md-4 col-lg-4 col-md m-b-15" style={{textAlign:'center'}}>
 
                       <PresentDataForm label={"Start"} styleLeft={{flex:1,textAlign:'right'}} styleRight={{flex:2,textAlign:'left'}} value={
-                        <DatePicker style={{width:'100%'}}
+                        <DatePicker style={{width:'100%'}} textFieldStyle={{width:'100%'}}
                           value={this.state.start}
                           onChange={this.handleChangeMinDate}
                           autoOk={this.state.autoOk} id="start"
@@ -368,7 +368,7 @@ class ProjectCreate extends Component {
                         />
                       } />
                       <PresentDataForm label={"Expect End"} styleLeft={{flex:1,textAlign:'right'}} styleRight={{flex:2,textAlign:'left'}} value={
-                        <DatePicker style={{width:'100%'}}
+                        <DatePicker style={{width:'100%'}} textFieldStyle={{width:'100%'}}
                           value={this.state.end}
                           onChange={this.handleChangeMaxDate}
                           autoOk={this.state.autoOk} id="expect_end"
@@ -380,8 +380,8 @@ class ProjectCreate extends Component {
 
                       <PresentDataForm label={""} value={
                         <div style={{display:'flex'}}>
-                          <div style={{flex:1,width:'120px',textAlign:'center'}} className="btn three" onTouchTap={()=>this.confirmCreateProject()}>Create Project</div>
-                          <div style={{flex:1,width:'120px',textAlign:'center'}} className="btn two" onTouchTap={()=>this.props.onCloseProjectCreate()}>Cancel</div>
+                          <div style={{flex:1,maxWidth:'120px',textAlign:'center'}} className="btn three" onTouchTap={()=>this.confirmCreateProject()}>Create</div>
+                          <div style={{flex:1,maxWidth:'120px',textAlign:'center'}} className="btn two" onTouchTap={()=>this.props.onCloseProjectCreate()}>Cancel</div>
                         </div>
                       } />
                   </div>

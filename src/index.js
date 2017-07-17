@@ -11,10 +11,10 @@ import './index.css';
 
 import 'font-awesome/css/font-awesome.css';
 import 'flexboxgrid/css/flexboxgrid.css';
-import registerServiceWorker from './registerServiceWorker';
+// import registerServiceWorker from './registerServiceWorker';
 injectTapEventPlugin();
 
 render(
     <App />, document.getElementById('root')
 );
-registerServiceWorker();
+// registerServiceWorker();

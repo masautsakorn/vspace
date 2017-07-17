@@ -268,7 +268,8 @@ class TicketDetail extends Component {
 
       var slaRemedy;
       if(this.state.openFormSlaRemedy){
-        slaRemedy = <CardContent style={{border:'1px solid #dedede'}}><TicketSlaRemedy ticket_sid={this.state.ticket_sid} cancelSlaRemedy={()=>{this.setState({openFormSlaRemedy:false}) }} status={this.state.toSlaStatus} statusTxt={this.state.toSlaTxt} /></CardContent>;
+        slaRemedy = <div>
+          <TicketSlaRemedy ticket_sid={this.state.ticket_sid} cancelSlaRemedy={()=>{this.setState({openFormSlaRemedy:false}) }} status={this.state.toSlaStatus} statusTxt={this.state.toSlaTxt} /></div>;
       }
 
       //SLA
@@ -585,7 +586,9 @@ var styles = {
     textAlign:'left'
   },
   label:{
-    padding:10, backgroundColor:'rgb(236, 240, 241)', color:'#000000',width:'100%',borderBottom:'1px solid #fcfcfc', height:'100%'
+    padding:10,
+    backgroundColor:(InfoGen.isMobile)?'initial':'rgb(236, 240, 241)',
+    color:'#000000',width:'100%',borderBottom:'1px solid #fcfcfc', height:'100%'
   },
   value:{
     padding:10, backgroundColor:'#00bcd4', color:'#ffffff',flex:1, marginRight:0,borderBottom:'1px solid #fcfcfc',height:'100%'

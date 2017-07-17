@@ -22,15 +22,24 @@ import MobileDashboard from './containers/MobileDashboard/MobileDashboard';
 import MobileManagement from './containers/MobileManagement/MobileManagement';
 
 import Standby7x24 from './containers/standby/Standby7x24';
+import Loading from './images/loading.gif';
+import LogoVspace from './images/vspace-sky.png';
 
+// import createHistory from 'history/createHashHistory';
+// import createHistory from 'history/createBrowserHistory';
+// const history = createHistory({ queryKey: false });
 // import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 // import ThemeDefault from './theme-default';
-import { Router, browserHistory } from 'react-router';
+import { Router,hashHistory, browserHistory } from 'react-router';
 var isMobile = false;
 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
   isMobile = true;
   require('onsenui/css/onsenui.css');
   require('onsenui/css/onsen-css-components.css');
+}
+
+if (/iPhone|iPad|iPod|Opera Mini/i.test(navigator.userAgent)) {
+  require('./style.iphone.css');
 }
 
 var isIE = /*@cc_on!@*/false || !!document.documentMode;
@@ -68,13 +77,13 @@ class routes extends React.Component {
     }
   }
   dashboard = () =>{
-    if(isMobile && (InfoGen.email=="autsakorn.t@firstlogic.co.th" || InfoGen.email=="detomas_25@hotmail.com"))
+    if(isMobile)
       return <MobileDashboard />
     else
       return <Dashboard case={()=>{}} info={this.state.info} listUserCanAddTask={this.state.listUserCanAddTask}/>
   }
   management = () =>{
-    if(isMobile && (InfoGen.email=="autsakorn.t@firstlogic.co.th" || InfoGen.email=="detomas_25@hotmail.com"))
+    if(isMobile)
       return <MobileManagement />
     else
       return <Management case={()=>{}} info={this.state.info} listUserCanAddTask={this.state.listUserCanAddTask}/>
@@ -103,7 +112,7 @@ class routes extends React.Component {
   router = () => {
     if(isIE){
       return this.routerIE();
-    }else if(isMobile && (InfoGen.email=="autsakorn.t@firstlogic.co.th" || InfoGen.email=="detomas_25@hotmail.com")){
+    }else if(isMobile){
       return this.routerMobile();
     }else {
       return this.routerWeb();
@@ -140,16 +149,9 @@ class routes extends React.Component {
     return <Route>
       <Route path="login" component={LoginPage}/>
       <Route path="/" component={AppMobile}>
-        <IndexRoute component={this.management}/>
+        <IndexRoute component={this.dashboard}/>
         <Route path="dashboard" component={this.dashboard}/>
         <Route path="management" component={this.management}/>
-        <Route path="calendar" component={this.calendar}/>
-        <Route path="schedule" component={this.schedule} />
-        <Route path="standby" component={this.standby} />
-        <Route path="profile" component={this.profile} />
-        <Route path="map" component={this.map} />
-        <Route path="form" component={FormPage}/>
-        <Route path="table" component={TablePage}/>
         <Route path="*" component={NotFoundPage}/>
       </Route>
     </Route>
@@ -165,7 +167,7 @@ class routes extends React.Component {
     }else if(this.state.loaded){
       return(<Welcome />)
     }else{
-      return(<div>Loading...</div>)
+      return(<div style={{display:'flex',position:'absolute',left: 0,right: 0,top:0,bottom:0}}><div style={{margin:'auto',flex:1,textAlign:'center'}}><div><img src={LogoVspace} alt="vSpace" /></div><div><img src={Loading} alt="loading" /></div></div></div>)
     }
   }
 }

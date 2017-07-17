@@ -39,7 +39,9 @@ class ProjectDetail extends Component {
       editingContract:false,
       newContract:"",
       openTicket:[],
-      editPlan:false,editOwner:false,closeProject:false,
+      editPlan:(InfoGen.email!="detomas_25@hotmail.com")?false:true,
+      editOwner:false,
+      closeProject:false,
       listContractFound:[],
       searchedContract:false,
       contract_no:'',
@@ -163,9 +165,9 @@ class ProjectDetail extends Component {
                     {
                     // <span className="btn" style={{marginLeft:'5px'}}>Edit Period</span> |
                     }
-                    <div className="col-xs-12 col-sm-2 col-md-2 col-lg-2 col-md btn three" style={{marginLeft:'5px'}} onTouchTap={()=>this.editPlan()}>{((data.case_of_project.length>0)?"Edit Plan":"Create Plan")}</div>
-                    <div className="col-xs-12 col-sm-2 col-md-2 col-lg-2 col-md btn " style={{marginLeft:'5px'}} onTouchTap={()=>this.editingContract(data.sid)}>Edit Contract No.</div>
-                    <div className="col-xs-12 col-sm-2 col-md-2 col-lg-2 col-md btn" style={{marginLeft:'5px'}} onTouchTap={()=>this.editOwner()}>Edit Project Owner</div>
+                    {(InfoGen.email!="detomas_25@hotmail.com")?<div className="col-xs-12 col-sm-2 col-md-2 col-lg-2 col-md btn three" style={{marginLeft:'5px'}} onTouchTap={()=>this.editPlan()}>{((data.case_of_project.length>0)?"Edit Plan":"Create Plan")}</div>:null}
+                    {(InfoGen.email!="detomas_25@hotmail.com")?<div className="col-xs-12 col-sm-2 col-md-2 col-lg-2 col-md btn " style={{marginLeft:'5px'}} onTouchTap={()=>this.editingContract(data.sid)}>Edit Contract No.</div>:null}
+                    {(InfoGen.email!="detomas_25@hotmail.com")?<div className="col-xs-12 col-sm-2 col-md-2 col-lg-2 col-md btn" style={{marginLeft:'5px'}} onTouchTap={()=>this.editOwner()}>Edit Project Owner</div>:null}
                     <div className="col-xs-12 col-sm-2 col-md-2 col-lg-2 col-md btn" style={{marginLeft:'5px'}} onTouchTap={()=>this.closeProject()}>Close Project</div>
                   </div>
                 </div>
@@ -260,8 +262,7 @@ class ProjectDetail extends Component {
       content =
       <div>
         <div>
-
-            <div className="project-header row">
+            <div className="row">
               <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-md" style={styles.headerLeft}>
                 <div style={styles.label}>Contract No</div>
                 <div style={styles.value}>
@@ -273,7 +274,7 @@ class ProjectDetail extends Component {
               </div>
             </div>
 
-            <div className="project-header row">
+            <div className=" row">
               <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-md" style={styles.headerLeft}>
                 <div style={styles.label}>Period</div>
                 <div style={styles.value}>
@@ -284,7 +285,7 @@ class ProjectDetail extends Component {
                 <div style={styles.label}>Project Owner</div><div style={styles.value}>{data.owner.map((item)=>{return (item.owner_name+" ")})}</div>
               </div>
             </div>
-            <div className="project-header row">
+            <div className=" row">
                 <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-md" style={styles.headerLeft}>
                     <div style={styles.label}>End user /<br/>Address</div>
                     <div style={styles.value}>{data.end_user} /<br/>{data.end_user_address}</div>
@@ -617,7 +618,7 @@ var styles = {
     display:'flex',
   },
   headerLeft: {
-    flex:1,
+    // flex:1,
     display:'flex'
   },
   headerRight: {
@@ -648,7 +649,10 @@ var styles = {
     width:50
   },
   label:{
-    padding:10, backgroundColor:'rgb(236, 240, 241)', color:'#000000',width:120,borderBottom:'1px solid #fcfcfc'
+    padding:10,
+    backgroundColor:(InfoGen.isMobile)?'initial':'rgb(236, 240, 241)',
+    color:'#000000',
+    width:120,borderBottom:'1px solid #fcfcfc'
   },
   value:{
     padding:10, backgroundColor:'rgb(27, 144, 161)', color:'#ffffff',flex:1, marginRight:0,borderBottom:'1px solid #fcfcfc'

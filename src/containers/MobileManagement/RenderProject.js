@@ -7,6 +7,8 @@ import {LoadCaseDetail} from '../../actions/ActionManagement';
 import {PresentData} from '../management/PresentData';
 import ProjectDetail from '../project/ProjectDetail';
 
+import ChevronLeft from 'material-ui/svg-icons/navigation/chevron-left';
+
 import InfoGen from '../../config/InfoGen';
 class RenderProject extends Component {
   constructor(props){
@@ -130,7 +132,7 @@ class NavApp extends Component{
     var style = {backgroundColor:'#00bcd4'};
     return <Toolbar style={style}>
       <div className='left'>
-        {backButton ? <BackButton style={{color:'#ffffff'}} onClick={() => navigator.popPage()}>Back</BackButton> : null}
+        {backButton ? <div style={{color:'#ffffff'}}><ChevronLeft style={{color:'#ffffff', marginTop:10}} onClick={() => navigator.popPage()} /></div>: null}
       </div>
       <div style={{color:'#ffffff'}} className='center'>{title}</div>
       <div className='right' >

@@ -6,6 +6,10 @@ import Url from '../config/url';
 import get from '../config/Get';
 import InfoGen from '../config/InfoGen';
 
+var menuDefault = [
+  {link:'/',name:'Dashboard'},
+  {link:'management',name:'Management'}
+]
 export default class MobileRightDrawer extends Component {
   constructor(props){
     super(props);
@@ -36,9 +40,13 @@ export default class MobileRightDrawer extends Component {
           if(resInfo.data.user_sid){
             console.log(resInfo.data.menus);
             // Data.menu = resInfo.data.menus;
-            that.props.menusTab(resInfo.data.menusTab, );
+            that.props.menusTab(resInfo.data.menusTab );
 
-            that.setState({menus:resInfo.data.menusV4,info:resInfo.data,menusTab:resInfo.data.menusTab});
+            if(!InfoGen.isMobile){
+              that.setState({menus:resInfo.data.menusV4,info:resInfo.data,menusTab:resInfo.data.menusTab});
+            }else{
+              that.setState({menus:menuDefault,info:resInfo.data,menusTab:resInfo.data.menusTab});
+            }
           }else{
             localStorage.removeItem("case_token");
             localStorage.removeItem("case_email");
@@ -58,11 +66,12 @@ export default class MobileRightDrawer extends Component {
   signOut = () => {
     localStorage.removeItem("case_token");
     localStorage.removeItem("case_email");
-    window.location = "/";
+    window.location = "";
   }
   render(){
+    console.log(this.state.menus);
     return(
-      <Splitter>
+      <Splitter className="splitter">
         <SplitterSide
           style={{
               boxShadow: '0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)'

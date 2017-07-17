@@ -1,6 +1,6 @@
 var END_POINT_2 = 'http://vspace.in.th/apis/';
 // var END_POINT_2 = './apis/';
-// var END_POINT_2 = 'http://localhost/Backup/apis/';
+var END_POINT_2 = 'http://localhost/Backup/apis/';
 export var END_POINT_PDF = './pdf/';
 
 const mode = '';//'dev';
@@ -79,7 +79,8 @@ var Url = {
   "sosUpdateStatus":END_POINT_2+"v1/ticket/sosUpdateStatus",
   "sosCiInformation": END_POINT_2+"v1/inventory/ciInformation",
   "findItemLikeThis":END_POINT_2+"v1/inventory/findItemLikeThis",
-  "changeContract":END_POINT_2+"v1/project/changeContract"
+  "changeContract":END_POINT_2+"v1/project/changeContract",
+  "notification":END_POINT_2+"v1/servicereport/notification"
   // 'ws_my_appointment': END_POINT_2+"v1/servicereport/appointment"
 }
 

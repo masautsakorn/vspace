@@ -7,7 +7,9 @@ var InfoGen = {
   token: localStorage.getItem("case_token"),
   info: JSON.parse(localStorage.getItem("info")),
   isMobile:isMobile,
-  listUserCanAddTask:JSON.parse(localStorage.getItem("listUserCanAddTask"))
+  listUserCanAddTask:JSON.parse(localStorage.getItem("listUserCanAddTask")),
+  lat:((localStorage.getItem("lat"))?parseInt(localStorage.getItem("lat")):0),
+  lng:((localStorage.getItem("lng"))?parseInt(localStorage.getItem("lng")):0)
 }
 
 export default InfoGen;
